@@ -1,0 +1,28 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Word {
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
+  word               String    @unique
+  translation        String
+  description        String
+  category           String[]
+  frequencyCategory  String    @map("frequency_category")
+  registerCategory   String    @map("register_category")
+  difficultyCategory String    @map("difficulty_category")
+  pos                String?
+  examples           Example[]
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime  @updatedAt @map("updated_at")
+}
+
+type Example {
+  original    String
+  translation String
+}
