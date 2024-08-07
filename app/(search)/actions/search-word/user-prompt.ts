@@ -34,4 +34,12 @@ For thematic category, you can choose from the following:
 ${categories.join('\n')}
 
 However, if no category has a strong match - come up with your own thematic category.
+
+When providing description provide a concise but informative description of the word's/phrase's meaning, usage, and cultural context in English. Include:
+1. Its primary meaning and any significant secondary meanings
+2. Common contexts or situations where it's used
+3. Any idiomatic uses or expressions it's part of
+4. Cultural nuances or connotations, if applicable
+5. How its usage might differ from similar words in English
+6. Any interesting etymology or changes in usage over time, if relevant
 `

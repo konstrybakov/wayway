@@ -21,7 +21,7 @@ export function Main() {
 
   return (
     <div className="flex flex-col items-center justify-center bg-background">
-      <Card className="w-full max-w-lg">
+      <Card className="w-full max-w-xl">
         <CardHeader>
           <CardTitle>Find word</CardTitle>
           <CardDescription>
