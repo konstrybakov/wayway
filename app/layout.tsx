@@ -25,9 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(satoshi.className, 'min-h-screen')}>
+      <body className={cn(satoshi.className, 'min-h-screen flex flex-col')}>
         <Navigation />
-        <main className="flex flex-col items-center justify-center p-24">
+        <main className="flex flex-col items-center justify-center p-24 flex-grow">
           {children}
         </main>
         <Toaster />

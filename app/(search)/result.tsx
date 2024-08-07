@@ -18,7 +18,9 @@ type ResultProps = {
 export const Result = ({ translation }: ResultProps) => {
   const [baseLoading, setBaseLoading] = useState(false)
   const [originalLoading, setOriginalLoading] = useState(false)
-  const alreadyInBaseForm = translation.correctOriginal === translation.baseForm
+  const alreadyInBaseForm =
+    translation.correctOriginal.toLocaleLowerCase() ===
+    translation.baseForm.toLocaleLowerCase()
 
   const handleSaveWord = async (form: 'base' | 'original') => {
     try {
