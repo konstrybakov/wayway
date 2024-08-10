@@ -15,8 +15,8 @@ export const Navigation = () => {
   const pathname = usePathname()
 
   return (
-    <NavigationMenu className="p-6 min-w-full flex-none">
-      <NavigationMenuList className="">
+    <NavigationMenu className="flex-none">
+      <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink

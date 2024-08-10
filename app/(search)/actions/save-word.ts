@@ -7,8 +7,13 @@ const prisma = new PrismaClient()
 export const saveWord = async (
   translation: Translation,
   form: 'base' | 'original',
+  userId: string,
 ): Promise<Word> => {
   'use server'
+
+  if (!userId) {
+    throw new Error('User not authenticated')
+  }
 
   const word = {
     word:
@@ -18,12 +23,27 @@ export const saveWord = async (
         ? translation.translation
         : translation.baseTranslation,
     description: translation.description,
-    category: translation.thematicCategory,
+    categories: {
+      connectOrCreate: translation.thematicCategory.map(category => ({
+        where: { name: category },
+        create: { name: category },
+      })),
+    },
     frequencyCategory: translation.frequencyCategory,
     difficultyCategory: translation.difficultyCategory,
     registerCategory: translation.registerCategory,
     pos: translation.partOfSpeech,
-    examples: translation.examples,
+    examples: {
+      createMany: {
+        data: translation.examples.map(({ original, translation }) => ({
+          original,
+          translation,
+        })),
+      },
+    },
+    user: {
+      connect: { id: userId },
+    },
   } satisfies Prisma.WordCreateInput
 
   const result = await prisma.word.create({

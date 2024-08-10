@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,21 +8,133 @@ generator client {
 }
 
 model Word {
-  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
-  word               String    @unique
-  translation        String
-  description        String
-  category           String[]
-  frequencyCategory  String    @map("frequency_category")
-  registerCategory   String    @map("register_category")
-  difficultyCategory String    @map("difficulty_category")
-  pos                String?
-  examples           Example[]
-  createdAt          DateTime  @default(now()) @map("created_at")
-  updatedAt          DateTime  @updatedAt @map("updated_at")
+  id Int @id @default(autoincrement())
+
+  word        String
+  translation String
+
+  description String
+  pos         String?
+
+  categories Category[]
+
+  frequencyCategory  FrequencyCategory  @map("frequency_category")
+  registerCategory   RegisterCategory   @map("register_category")
+  difficultyCategory DifficultyCategory @map("difficulty_category")
+
+  examples Example[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  @@map("words")
 }
 
-type Example {
+enum FrequencyCategory {
+  Common
+  Uncommon
+  Rare
+}
+
+enum RegisterCategory {
+  Formal
+  Informal
+  Slang
+  Technical
+}
+
+enum DifficultyCategory {
+  Beginner
+  Intermediate
+  Advanced
+}
+
+model Example {
+  id Int @id @default(autoincrement())
+
   original    String
   translation String
+
+  Word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("examples")
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+
+  name String @unique
+
+  words Word[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  Word      Word[]
+
+  @@map("users")
+}
+
+model Account {
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
 }

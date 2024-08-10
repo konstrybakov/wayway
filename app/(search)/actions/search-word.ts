@@ -1,19 +1,25 @@
 'use server'
 
+import { anthropic } from '@ai-sdk/anthropic'
 import { openai } from '@ai-sdk/openai'
-import { PrismaClient } from '@prisma/client'
+
 import { generateObject } from 'ai'
 import { TranslationSchema } from './search-word/schema'
 import { systemPrompt } from './search-word/system-prompt'
 import type { Translation } from './search-word/types'
 import { userPrompt } from './search-word/user-prompt'
 
-const prisma = new PrismaClient()
+import 'server-only'
+import { prisma } from '@/lib/db/client'
 
-export async function searchWord(input: string) {
+const modelA = anthropic('claude-3-5-sonnet-20240620')
+const modelO = openai('gpt-4o-mini-2024-07-18')
+
+export async function searchWord(input: string, userId: string) {
   'use server'
-  const savedWord = await prisma.word.findUnique({
-    where: { word: input },
+  const savedWord = await prisma.word.findFirst({
+    where: { word: input, userId },
+    include: { examples: true, categories: true },
   })
 
   if (savedWord) {
@@ -23,7 +29,7 @@ export async function searchWord(input: string) {
       examples: savedWord.examples,
       error: null,
       partOfSpeech: savedWord.pos,
-      thematicCategory: savedWord.category,
+      thematicCategory: savedWord.categories.map(({ name }) => name),
       difficultyCategory: savedWord.difficultyCategory,
       registerCategory: savedWord.registerCategory,
       frequencyCategory: savedWord.frequencyCategory,
@@ -32,25 +38,23 @@ export async function searchWord(input: string) {
       baseTranslation: savedWord.translation,
     } satisfies Translation
 
-    return { translation }
+    return { translation, saved: true }
   }
 
-  const thematicCategories = await prisma.word.findMany({
-    select: { category: true },
-    distinct: ['category'],
+  const thematicCategories = await prisma.category.findMany({
+    select: { name: true },
+    distinct: ['name'],
   })
 
-  console.log('categories', thematicCategories)
-
   const { object: translation } = await generateObject({
-    model: openai('gpt-4o-mini'),
+    model: modelO,
     system: systemPrompt,
     prompt: userPrompt(
       input,
-      thematicCategories.flatMap(({ category }) => category),
+      thematicCategories.map(({ name }) => name),
     ),
     schema: TranslationSchema,
   })
 
-  return { translation }
+  return { translation, saved: false }
 }

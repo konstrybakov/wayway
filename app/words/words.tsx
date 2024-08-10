@@ -1,9 +1,9 @@
-import type { Word } from '@prisma/client'
 import { columns } from './columns'
 import { DataTable } from './data-table'
+import type { WordForTable } from './types'
 
 type WordsProps = {
-  words: Word[]
+  words: WordForTable[]
 }
 
 export const Words = ({ words }: WordsProps) => {

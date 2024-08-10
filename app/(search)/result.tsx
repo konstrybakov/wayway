@@ -13,9 +13,12 @@ import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert'
 
 type ResultProps = {
   translation: Translation
+  saved: boolean
+  onSave: (saved: boolean) => void
+  userId: string
 }
 
-export const Result = ({ translation }: ResultProps) => {
+export const Result = ({ translation, saved, userId }: ResultProps) => {
   const [baseLoading, setBaseLoading] = useState(false)
   const [originalLoading, setOriginalLoading] = useState(false)
   const alreadyInBaseForm =
@@ -30,7 +33,7 @@ export const Result = ({ translation }: ResultProps) => {
         setOriginalLoading(true)
       }
 
-      await saveWord(translation, form)
+      await saveWord(translation, form, userId)
 
       if (form === 'base') {
         setBaseLoading(false)
@@ -68,7 +71,7 @@ export const Result = ({ translation }: ResultProps) => {
             variant="secondary"
             size="icon"
             loading={baseLoading}
-            disabled={baseLoading}
+            disabled={baseLoading || saved}
           >
             <AccessibleIcon label="Save base word">
               <SaveIcon size={16} />

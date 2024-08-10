@@ -15,9 +15,14 @@ import { searchWord } from './actions/search-word'
 import { Result } from './result'
 import { SearchFormSubmitButton } from './search-form-submit-button'
 
-export function Main() {
+type SearchProps = {
+  userId: string
+}
+
+export function Search({ userId }: SearchProps) {
   const [input, setInput] = useState('')
   const [translation, setTranslation] = useState<Translation>()
+  const [saved, setSaved] = useState(false)
 
   return (
     <div className="flex flex-col items-center justify-center bg-background">
@@ -32,9 +37,10 @@ export function Main() {
           <form
             className="flex items-center gap-4"
             action={async () => {
-              const response = await searchWord(input)
+              const response = await searchWord(input, userId)
 
               setTranslation(response.translation)
+              setSaved(response.saved)
             }}
           >
             <Input
@@ -47,7 +53,14 @@ export function Main() {
             <SearchFormSubmitButton disabled={!input} />
           </form>
 
-          {translation && <Result translation={translation} />}
+          {translation && (
+            <Result
+              onSave={setSaved}
+              saved={saved}
+              userId={userId}
+              translation={translation}
+            />
+          )}
         </CardContent>
       </Card>
     </div>
