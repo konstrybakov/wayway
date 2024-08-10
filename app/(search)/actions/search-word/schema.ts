@@ -1,9 +1,16 @@
+import {
+  DifficultyCategory,
+  FrequencyCategory,
+  RegisterCategory,
+} from '@prisma/client'
 import { z } from 'zod'
 
 export const TranslationSchema = z.object({
   correctOriginal: z
     .string()
-    .describe('The correct version of the original Finnish word or phrase'),
+    .describe(
+      'The correctly spelled version of the original Finnish word or phrase',
+    ),
   baseForm: z
     .string()
     .describe('The most basic form of the word or phrase in Finnish'),
@@ -30,17 +37,14 @@ export const TranslationSchema = z.object({
     )
     .describe('The thematic categories of the word or phrase'),
   difficultyCategory: z
-    .string()
-    .describe('The difficulty category of the word or phrase')
-    .transform(value => value?.toLocaleLowerCase() ?? null),
+    .nativeEnum(DifficultyCategory)
+    .describe('The difficulty category of the word or phrase'),
   registerCategory: z
-    .string()
-    .describe('The register category of the word or phrase')
-    .transform(value => value?.toLocaleLowerCase() ?? null),
+    .nativeEnum(RegisterCategory)
+    .describe('The register category of the word or phrase'),
   frequencyCategory: z
-    .string()
-    .describe('The frequency category of the word or phrase')
-    .transform(value => value?.toLocaleLowerCase() ?? null),
+    .nativeEnum(FrequencyCategory)
+    .describe('The frequency category of the word or phrase'),
   error: z
     .string()
     .nullable()

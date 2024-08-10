@@ -1,5 +1,14 @@
-import { Main } from './search'
+import { redirect } from 'next/navigation'
+import { auth } from '../auth'
+import { Search } from './search'
 
-export default function Home() {
-  return <Main />
+export default async function Home() {
+  const session = await auth()
+  const userId = session?.user?.id
+
+  if (!userId) {
+    redirect('/signin')
+  }
+
+  return <Search userId={userId} />
 }

@@ -1,4 +1,3 @@
-import { Navigation } from '@/app/navigation'
 import { Toaster } from '@/components/ui/sonner'
 import type { Metadata } from 'next'
 
@@ -6,6 +5,7 @@ import localFont from 'next/font/local'
 
 import './globals.css'
 import { cn } from '@/lib/utils'
+import { Menu } from './(menu)/menu'
 
 const satoshi = localFont({
   src: './fonts/satoshi/variable.woff2',
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(satoshi.className, 'min-h-screen flex flex-col')}>
-        <Navigation />
+        <Menu />
         <main className="flex flex-col items-center justify-center p-24 flex-grow">
           {children}
         </main>

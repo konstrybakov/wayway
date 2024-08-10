@@ -1,8 +1,9 @@
 export const userPrompt = (input: string, categories: string[]) => `
-Analyze the following Finnish word or phrase: ${input}
+Analyze the following Finnish word or phrase: ${input}.
 
+Be very strict about correct spelling, always correct incorrect spelling. Pay attention to single/double letters, accents, and special characters.
 If there is a small typo or spelling mistake, use the corrected version and return a short description of the error.
-If there is an interesting fact, or an interesting usage of the word/phrase, include it in the description - otherwise don't.
+Do not consider colloquial form an error and do not correct it, however, mention it in the description and provide a base form.
 
 If it's a single word:
 
@@ -37,9 +38,7 @@ However, if no category has a strong match - come up with your own thematic cate
 
 When providing description provide a concise but informative description of the word's/phrase's meaning, usage, and cultural context in English. Include:
 1. Its primary meaning and any significant secondary meanings
-2. Common contexts or situations where it's used
-3. Any idiomatic uses or expressions it's part of
-4. Cultural nuances or connotations, if applicable
-5. How its usage might differ from similar words in English
-6. Any interesting etymology or changes in usage over time, if relevant
+2. Any idiomatic uses or expressions it's part of
+3. Cultural nuances or connotations, if applicable
+4. Any interesting etymology or changes in usage over time, if relevant
 `
