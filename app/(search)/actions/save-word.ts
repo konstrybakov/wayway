@@ -44,6 +44,13 @@ export const saveWord = async (
     user: {
       connect: { id: userId },
     },
+    wordProgress: {
+      create: {
+        user: {
+          connect: { id: userId },
+        },
+      },
+    },
   } satisfies Prisma.WordCreateInput
 
   const result = await prisma.word.create({

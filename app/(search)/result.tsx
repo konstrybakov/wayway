@@ -4,8 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { AccessibleIcon } from '@radix-ui/react-accessible-icon'
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import { SaveIcon } from 'lucide-react'
+import { CircleAlertIcon, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { titleCase } from 'title-case'
@@ -19,6 +18,9 @@ type ResultProps = {
 }
 
 export const Result = ({ translation, saved, userId }: ResultProps) => {
+  const [baseSaved, setBaseSaved] = useState(saved)
+  const [originalSaved, setOriginalSaved] = useState(false)
+
   const [baseLoading, setBaseLoading] = useState(false)
   const [originalLoading, setOriginalLoading] = useState(false)
   const alreadyInBaseForm =
@@ -27,18 +29,16 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
 
   const handleSaveWord = async (form: 'base' | 'original') => {
     try {
-      if (form === 'base') {
-        setBaseLoading(true)
-      } else {
-        setOriginalLoading(true)
-      }
+      form === 'base' ? setBaseLoading(true) : setOriginalLoading(true)
 
       await saveWord(translation, form, userId)
 
       if (form === 'base') {
         setBaseLoading(false)
+        setBaseSaved(true)
       } else {
         setOriginalLoading(false)
+        setOriginalSaved(true)
       }
 
       toast.success('Saved the word to your collection')
@@ -52,26 +52,26 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
     <div className="space-y-8">
       {translation.error && (
         <Alert variant="destructive">
-          <ExclamationTriangleIcon className="h-4 w-4" />
+          <CircleAlertIcon size={16} />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{translation.error}</AlertDescription>
         </Alert>
       )}
       <div className="flex items-center mt-10 flex-wrap justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <h4 className="text-lg font-medium">
             {translation.baseTranslation}{' '}
           </h4>
           <Badge variant="secondary">{translation.partOfSpeech}</Badge>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <h4 className="text-lg font-medium">{translation.baseForm}</h4>
           <Button
             onClick={() => handleSaveWord('base')}
             variant="secondary"
             size="icon"
             loading={baseLoading}
-            disabled={baseLoading || saved}
+            disabled={baseLoading || baseSaved}
           >
             <AccessibleIcon label="Save base word">
               <SaveIcon size={16} />
@@ -83,13 +83,13 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
       {alreadyInBaseForm ? null : (
         <>
           <div className="flex items-center flex-wrap justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <h4 className="text-lg font-medium">
                 {translation.translation}{' '}
               </h4>
               <Badge variant="secondary">{translation.partOfSpeech}</Badge>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <h4 className="text-lg font-medium">
                 {translation.correctOriginal}
               </h4>
@@ -98,7 +98,7 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
                 variant="secondary"
                 size="icon"
                 loading={originalLoading}
-                disabled={originalLoading}
+                disabled={originalLoading || originalSaved}
               >
                 <AccessibleIcon label="Save original word">
                   <SaveIcon size={16} />
@@ -116,7 +116,9 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
         <div className="flex gap-2 justify-between">
           <div className="flex gap-2">
             {translation.thematicCategory.map(category => (
-              <Badge key={category}>{titleCase(category)}</Badge>
+              <Badge variant="secondary" key={category}>
+                {titleCase(category)}
+              </Badge>
             ))}
           </div>
 

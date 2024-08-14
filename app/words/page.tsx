@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db/client'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/app/auth'
-import { WordsForTable } from './prisma-args'
+import { WordsForTableArgs } from './prisma-args'
 
 import 'server-only'
 
@@ -17,7 +17,8 @@ export default async function WordsPage() {
 
   const words = await prisma.word.findMany({
     where: { userId },
-    ...WordsForTable,
+    orderBy: { word: 'asc' },
+    ...WordsForTableArgs,
   })
 
   return <Words words={words} />

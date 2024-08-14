@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client'
 
-export const WordsForTable = {
+export const WordsForTableArgs = {
   include: {
     categories: {
       select: {

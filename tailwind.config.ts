@@ -20,7 +20,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-satoshi)', ...fontFamily.sans], // <--------- 👈
+        sans: ['var(--font-ui)', ...fontFamily.sans],
       },
       colors: {
         border: 'hsl(var(--border))',

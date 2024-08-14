@@ -16,19 +16,20 @@ model Word {
   description String
   pos         String?
 
-  categories Category[]
-
   frequencyCategory  FrequencyCategory  @map("frequency_category")
   registerCategory   RegisterCategory   @map("register_category")
   difficultyCategory DifficultyCategory @map("difficulty_category")
 
-  examples Example[]
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  wordProgress     WordProgress?
+  categories       Category[]
+  examples         Example[]
+  practiceAttempts PracticeAttempt[]
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("words")
 }
@@ -58,8 +59,8 @@ model Example {
   original    String
   translation String
 
-  Word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  wordId Int
+  word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId Int  @map("word_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -86,18 +87,22 @@ model User {
   email         String    @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-  accounts      Account[]
-  sessions      Session[]
+
+  accounts Account[]
+  sessions Session[]
+
+  words            Word[]
+  wordProgress     WordProgress[]
+  practiceSessions PracticeSession[]
+  practiceAttempts PracticeAttempt[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-  Word      Word[]
 
   @@map("users")
 }
 
 model Account {
-  userId            String  @map("user_id")
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
@@ -109,10 +114,11 @@ model Account {
   id_token          String?
   session_state     String?
 
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
   @@map("accounts")
@@ -120,9 +126,10 @@ model Account {
 
 model Session {
   sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -137,4 +144,96 @@ model VerificationToken {
 
   @@id([identifier, token])
   @@map("verification_tokens")
+}
+
+model WordProgress {
+  id Int @id @default(autoincrement())
+
+  algorithm Algorithm @default(SM2)
+
+  lastReviewDate DateTime? @map("last_review_date")
+  nextReviewDate DateTime? @map("next_review_date")
+
+  easeFactor Float @default(2.5) @map("ease_factor")
+  interval   Int   @default(0)
+
+  learningStep Int   @default(0) @map("learning_step")
+  phase        Phase @default(Learning)
+
+  word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId Int  @unique @map("word_id")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  practiceAttempts PracticeAttempt[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([wordId, userId])
+  @@index([userId, nextReviewDate])
+  @@map("word_progress")
+}
+
+enum Algorithm {
+  SM2
+}
+
+enum Phase {
+  Learning
+  Review
+  Relearning
+}
+
+model PracticeAttempt {
+  id Int @id @default(autoincrement())
+
+  reviewDate   DateTime     @default(now()) @map("review_date")
+  grade        Int
+  phase        Phase        @default(Learning)
+  reviewMethod ReviewMethod @default(FullTyping) @map("review_method")
+
+  // responseTime Int? @map("response_time")
+  // streak       Int          @default(0)
+  // HintUsed - boolean
+
+  wordProgress   WordProgress @relation(fields: [wordProgressId], references: [id], onDelete: Cascade)
+  wordProgressId Int          @map("word_progress_id")
+
+  word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId Int  @map("word_id")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  practiceSession   PracticeSession? @relation(fields: [practiceSessionId], references: [id])
+  practiceSessionId String?          @map("practice_session_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // why this index
+  @@index([wordProgressId, reviewDate])
+  @@map("practice_attempts")
+}
+
+enum ReviewMethod {
+  FullTyping
+}
+
+model PracticeSession {
+  id String @id @default(cuid())
+
+  size      Int     @default(10)
+  words     Int[]
+  completed Boolean @default(false)
+
+  practiceAttempts PracticeAttempt[]
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
