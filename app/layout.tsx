@@ -1,16 +1,16 @@
 import { Toaster } from '@/components/ui/sonner'
 import type { Metadata } from 'next'
 
-import localFont from 'next/font/local'
+import { Manrope } from 'next/font/google'
 
 import './globals.css'
 import { cn } from '@/lib/utils'
 import { Menu } from './(menu)/menu'
 
-const satoshi = localFont({
-  src: './fonts/satoshi/variable.woff2',
+const manrope = Manrope({
+  variable: '--font-ui',
   display: 'swap',
-  variable: '--font-satoshi',
+  subsets: ['latin'],
 })
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(satoshi.className, 'min-h-screen flex flex-col')}>
+      <body className={cn(manrope.className, 'min-h-screen flex flex-col')}>
         <Menu />
         <main className="flex flex-col items-center justify-center p-24 flex-grow">
           {children}

@@ -12,6 +12,7 @@ import { userPrompt } from './search-word/user-prompt'
 import 'server-only'
 import { prisma } from '@/lib/db/client'
 
+// @ts-expect-error
 const modelA = anthropic('claude-3-5-sonnet-20240620')
 const modelO = openai('gpt-4o-mini-2024-07-18')
 

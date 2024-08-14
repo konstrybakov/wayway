@@ -55,6 +55,7 @@ export function Search({ userId }: SearchProps) {
 
           {translation && (
             <Result
+              key={translation.translation}
               onSave={setSaved}
               saved={saved}
               userId={userId}

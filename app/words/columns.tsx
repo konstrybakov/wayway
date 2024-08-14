@@ -48,7 +48,9 @@ export const columns = [
       return (
         <div className="flex gap-2">
           {formatted.map(category => (
-            <Badge key={category}>{category}</Badge>
+            <Badge variant="secondary" key={category}>
+              {category}
+            </Badge>
           ))}
         </div>
       )
