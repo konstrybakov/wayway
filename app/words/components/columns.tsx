@@ -13,8 +13,8 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontalIcon, TrashIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { titleCase } from 'title-case'
-import { deleteWord } from './actions/delete-word'
-import type { WordForTable } from './types'
+import { deleteWord } from '../actions/delete-word'
+import type { WordForTable } from '../types'
 
 export const columns = [
   {

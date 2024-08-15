@@ -1,6 +1,6 @@
-import { Words } from '@/app/words/words'
 import { prisma } from '@/lib/db/client'
 import { redirect } from 'next/navigation'
+import { Words } from './components/words'
 
 import { auth } from '@/app/auth'
 import { WordsForTableArgs } from './prisma-args'

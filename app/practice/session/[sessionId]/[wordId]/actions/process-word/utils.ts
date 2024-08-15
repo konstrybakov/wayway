@@ -5,7 +5,7 @@ type Config = {
   lapseIntervalMultiplier: number
 }
 
-const HALF_HOUR = 30
+const TEN_MINUTES = 10
 const TWO_HOURS = 2 * 60
 const ONE_DAY = 1 * 24 * 60
 const THREE_DAYS = 3 * 24 * 60
@@ -18,7 +18,7 @@ export enum Grade {
 }
 
 export const config = {
-  learningSteps: [HALF_HOUR, TWO_HOURS, ONE_DAY, THREE_DAYS],
+  learningSteps: [TEN_MINUTES, TWO_HOURS, ONE_DAY, THREE_DAYS],
   intervalMultiplier: 1,
   easyBonus: 1.3,
   lapseIntervalMultiplier: 0.1,

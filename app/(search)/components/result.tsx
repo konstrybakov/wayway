@@ -1,14 +1,15 @@
 import { saveWord } from '@/app/(search)/actions/save-word'
 import type { Translation } from '@/app/(search)/actions/search-word/types'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { AccessibleIcon } from '@radix-ui/react-accessible-icon'
 import { CircleAlertIcon, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
 import { titleCase } from 'title-case'
-import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert'
 
 type ResultProps = {
   translation: Translation
@@ -47,6 +48,13 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
       toast.error('Failed to save the word')
     }
   }
+
+  useHotkeys('ctrl+s', () => handleSaveWord('base'), {
+    enableOnFormTags: ['INPUT'],
+  })
+  useHotkeys('ctrl+shift+s', () => handleSaveWord('original'), {
+    enableOnFormTags: ['INPUT'],
+  })
 
   return (
     <div className="space-y-8">
@@ -136,7 +144,7 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
         </div>
       </div>
       <Separator />
-      <div className="grid gap-4">
+      <div className="grid gap-5">
         {translation.examples.map(example => {
           return (
             <div key={example.original} className="flex flex-col gap-1">

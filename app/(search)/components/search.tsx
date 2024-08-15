@@ -10,8 +10,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
-import { searchWord } from './actions/search-word'
+import { useRouter } from 'next/navigation'
+import { useRef, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { searchWord } from '../actions/search-word'
 import { Result } from './result'
 import { SearchFormSubmitButton } from './search-form-submit-button'
 
@@ -20,9 +22,20 @@ type SearchProps = {
 }
 
 export function Search({ userId }: SearchProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
   const [input, setInput] = useState('')
   const [translation, setTranslation] = useState<Translation>()
   const [saved, setSaved] = useState(false)
+  const router = useRouter()
+
+  useHotkeys('f', event => {
+    event.preventDefault()
+
+    inputRef.current?.focus()
+  })
+
+  useHotkeys('2', () => router.push('/words'))
+  useHotkeys('3', () => router.push('/practice'))
 
   return (
     <div className="flex flex-col items-center justify-center bg-background">
@@ -45,6 +58,8 @@ export function Search({ userId }: SearchProps) {
           >
             <Input
               type="text"
+              autoFocus
+              ref={inputRef}
               placeholder="Enter a word to translate"
               className="flex-1"
               value={input}

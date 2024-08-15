@@ -57,9 +57,9 @@ export const processPracticeAttempt = async (
   sessionWords.shift()
 
   // TODO: Maybe should also retry the Partial grade
-  if (grade === Grade.Forgot) {
-    sessionWords.push(wordProgress.wordId)
-  }
+  // if (grade === Grade.Forgot) {
+  //   sessionWords.push(wordProgress.wordId)
+  // }
 
   const updatedSession = {
     words: sessionWords,

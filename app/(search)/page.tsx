@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
+
 import { auth } from '../auth'
-import { Search } from './search'
+import { Search } from './components/search'
 
 export default async function Home() {
   const session = await auth()
