@@ -5,32 +5,46 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAtom, useSetAtom } from 'jotai'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 import { ArrowBigUpIcon, CornerDownLeftIcon } from 'lucide-react'
-import { guessAtom } from './state/guess-atom'
-import { submittedAtom } from './state/submitted-atom'
+import { guessAtom } from '../state/guess-atom'
+import { resultAtom } from '../state/result-atom'
 
 const INPUT_NAME = 'guess'
 
 type WordCardFrontProps = {
   word: string
+  translation: string
 }
 
-export const WordCardFront = ({ word }: WordCardFrontProps) => {
+const normalize = (string: string) => string.toLowerCase().trim()
+
+export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
   const [guess, setGuess] = useAtom(guessAtom)
-  const setSubmitted = useSetAtom(submittedAtom)
+  const setResult = useSetAtom(resultAtom)
+
+  useHotkeys(
+    'shift+enter',
+    () => {
+      setResult('skipped')
+    },
+    { enableOnFormTags: ['INPUT'] },
+  )
 
   return (
     <Card className="w-full max-w-xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">{word}</CardTitle>
+        <CardTitle className="text-2xl font-bold">{translation}</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-6 min-h-24 items-center">
         <form
           onSubmit={event => {
             event.preventDefault()
 
-            setSubmitted(true)
+            setResult(
+              normalize(guess) === normalize(word) ? 'correct' : 'incorrect',
+            )
           }}
           className="grid gap-2"
         >
@@ -47,11 +61,19 @@ export const WordCardFront = ({ word }: WordCardFrontProps) => {
               type="text"
               className="flex-1"
             />
-            <Button type="submit" className="flex gap-3 items-center">
+            <Button
+              type="submit"
+              className="flex gap-3 items-center bg-stone-700"
+            >
               Check
               <CornerDownLeftIcon size={16} />
             </Button>
-            <Button variant="outline" type="submit" className="flex gap-3">
+            <Button
+              variant="outline"
+              type="button"
+              onClick={() => setResult('skipped')}
+              className="flex gap-3 bg-stone-50 hover:bg-stone-100"
+            >
               No Idea
               <div className="flex">
                 <ArrowBigUpIcon size={16} />

@@ -3,13 +3,12 @@ import {
   ActivityIcon,
   BookOpen,
   CheckCircleIcon,
-  GamepadIcon,
   PlusIcon,
   RotateCcwIcon,
 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { auth } from '../auth'
-import { StartPracticeButtons } from './start-practice-buttons'
+import { StartPracticeButtons } from './components/start-practice-buttons'
 import { getCounts } from './utils/get-counts'
 
 export default async function PracticePage() {
@@ -38,7 +37,9 @@ export default async function PracticePage() {
         <CardContent className="grid grid-cols-2 gap-4">
           <Card>
             <CardHeader className="p-4 pb-0">
-              <CardTitle className="text-sm font-medium">Total Words</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Total Words
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-2 flex justify-between items-center gap-2">
               <p className="text-2xl font-bold">{totalCount}</p>
@@ -47,7 +48,9 @@ export default async function PracticePage() {
           </Card>
           <Card>
             <CardHeader className="p-4 pb-0">
-              <CardTitle className="text-sm font-medium">New Words</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                New Words
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-2 flex justify-between items-center gap-2">
               <p className="text-2xl font-bold">{newCount}</p>
@@ -64,7 +67,7 @@ export default async function PracticePage() {
         <CardContent className="grid grid-cols-2 gap-4">
           <Card>
             <CardHeader className="p-4 pb-0">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 Words in Learning
               </CardTitle>
             </CardHeader>
@@ -75,13 +78,13 @@ export default async function PracticePage() {
           </Card>
           <Card>
             <CardHeader className="p-4 pb-0">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 Due for review
               </CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-2 flex justify-between items-center gap-2">
               <p className="text-2xl font-bold">{learningDueForReviewCount}</p>
-              <GamepadIcon size={20} className="text-gray-500" />
+              <RotateCcwIcon size={20} className="text-gray-500" />
             </CardContent>
           </Card>
         </CardContent>
@@ -94,7 +97,7 @@ export default async function PracticePage() {
         <CardContent className="grid grid-cols-2 gap-4">
           <Card>
             <CardHeader className="p-4 pb-0">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 Learned Words
               </CardTitle>
             </CardHeader>
@@ -105,7 +108,7 @@ export default async function PracticePage() {
           </Card>
           <Card>
             <CardHeader className="p-4 pb-0">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 Due for review
               </CardTitle>
             </CardHeader>

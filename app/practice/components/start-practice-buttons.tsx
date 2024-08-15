@@ -2,13 +2,20 @@
 
 import { Button } from '@/components/ui/button'
 import { PlusIcon, RepeatIcon } from 'lucide-react'
-import { startNewSession } from './actions/start-new-session'
+import { useRouter } from 'next/navigation'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { startNewSession } from '../actions/start-new-session'
 
 type StartPracticeButtonsProps = {
   userId: string
 }
 
 export const StartPracticeButtons = ({ userId }: StartPracticeButtonsProps) => {
+  const router = useRouter()
+
+  useHotkeys('1', () => router.push('/'))
+  useHotkeys('2', () => router.push('/words'))
+
   return (
     <>
       <Button

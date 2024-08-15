@@ -1,6 +1,6 @@
+import type { WordForTable } from '../types'
 import { columns } from './columns'
 import { DataTable } from './data-table'
-import type { WordForTable } from './types'
 
 type WordsProps = {
   words: WordForTable[]

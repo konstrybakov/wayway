@@ -2,7 +2,7 @@ import { auth } from '@/app/auth'
 import { prisma } from '@/lib/db/client'
 
 import { redirect } from 'next/navigation'
-import { WordPracticeCard } from './word-practice-card'
+import { WordPracticeCard } from './components/word-practice-card'
 
 import 'server-only'
 import { Provider } from 'jotai'
