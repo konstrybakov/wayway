@@ -1,14 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   ActivityIcon,
-  BookOpen,
   CheckCircleIcon,
   PlusIcon,
   RotateCcwIcon,
+  Rows4Icon,
 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { auth } from '../auth'
-import { StartPracticeButtons } from './components/start-practice-buttons'
+import { StartPractice } from './components/start-practice-session'
 import { getCounts } from './utils/get-counts'
 
 export default async function PracticePage() {
@@ -43,7 +43,7 @@ export default async function PracticePage() {
             </CardHeader>
             <CardContent className="p-4 pt-2 flex justify-between items-center gap-2">
               <p className="text-2xl font-bold">{totalCount}</p>
-              <BookOpen size={20} className="text-gray-500" />
+              <Rows4Icon size={20} className="text-gray-500" />
             </CardContent>
           </Card>
           <Card>
@@ -120,9 +120,7 @@ export default async function PracticePage() {
         </CardContent>
       </Card>
 
-      <div className="flex gap-2">
-        <StartPracticeButtons userId={userId} />
-      </div>
+      <StartPractice userId={userId} />
     </div>
   )
 }

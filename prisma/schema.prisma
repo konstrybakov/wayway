@@ -225,9 +225,12 @@ enum ReviewMethod {
 model PracticeSession {
   id String @id @default(cuid())
 
-  size      Int     @default(10)
+  size      Int?    @default(10)
   words     Int[]
   completed Boolean @default(false)
+
+  phase        Phase[]
+  practiceType PracticeSessionType[]
 
   practiceAttempts PracticeAttempt[]
 
@@ -236,4 +239,9 @@ model PracticeSession {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+enum PracticeSessionType {
+  New
+  Review
 }
