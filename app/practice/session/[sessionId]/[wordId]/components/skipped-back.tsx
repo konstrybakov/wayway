@@ -43,7 +43,7 @@ export const SkippedCardBack = ({
         </div>
         <div className="flex gap-2 col-span-2 items-center justify-end">
           <Button
-            className="flex gap-3 bg-stone-700"
+            className="flex gap-3 bg-stone-800"
             onClick={() => process(Grade.Partial)}
           >
             Next

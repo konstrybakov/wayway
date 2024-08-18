@@ -63,7 +63,7 @@ export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
             />
             <Button
               type="submit"
-              className="flex gap-3 items-center bg-stone-700"
+              className="flex gap-3 items-center bg-stone-800"
             >
               Check
               <CornerDownLeftIcon size={16} />
