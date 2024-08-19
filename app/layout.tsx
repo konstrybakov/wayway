@@ -6,6 +6,7 @@ import { DM_Sans } from 'next/font/google'
 import './globals.css'
 import { cn } from '@/lib/utils'
 import { Menu } from './components/menu/menu'
+import { CSPostHogProvider } from './providers'
 
 const dmSans = DM_Sans({
   variable: '--font-ui',
@@ -25,13 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(dmSans.className, 'min-h-screen flex flex-col')}>
-        <Menu />
-        <main className="flex flex-col items-center justify-center p-24 flex-grow">
-          {children}
-        </main>
-        <Toaster />
-      </body>
+      <CSPostHogProvider>
+        <body className={cn(dmSans.className, 'min-h-screen flex flex-col')}>
+          <Menu />
+          <main className="flex flex-col items-center justify-center p-24 flex-grow">
+            {children}
+          </main>
+          <Toaster />
+        </body>
+      </CSPostHogProvider>
     </html>
   )
 }
