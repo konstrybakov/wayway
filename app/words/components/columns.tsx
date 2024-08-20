@@ -85,7 +85,7 @@ export const columns = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const word = row.original
 
       return (
@@ -111,6 +111,8 @@ export const columns = [
             <DropdownMenuItem
               onClick={() => {
                 deleteWord(word.id)
+
+                table.options.meta?.deleteRow(row.index)
 
                 toast.success('Word deleted')
               }}
