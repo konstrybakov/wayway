@@ -1,10 +1,10 @@
-import { auth } from '@/app/auth'
 import { prisma } from '@/lib/db/client'
 
 import { redirect } from 'next/navigation'
 import { WordPracticeCard } from './components/word-practice-card'
 
 import 'server-only'
+import { auth } from '@/app/(auth)/auth'
 import { Provider } from 'jotai'
 
 type WordPracticePageProps = {

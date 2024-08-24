@@ -1,18 +1,11 @@
 import { Toaster } from '@/components/ui/sonner'
 import type { Metadata } from 'next'
 
-import { DM_Sans } from 'next/font/google'
-
-import './globals.css'
+import '../globals.css'
+import { dmSans } from '@/app/font'
 import { cn } from '@/lib/utils'
+import { CSPostHogProvider } from '../providers'
 import { Menu } from './components/menu/menu'
-import { CSPostHogProvider } from './providers'
-
-const dmSans = DM_Sans({
-  variable: '--font-ui',
-  display: 'swap',
-  subsets: ['latin'],
-})
 
 export const metadata: Metadata = {
   title: 'WayWay',

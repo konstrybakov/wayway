@@ -1,5 +1,3 @@
-import { saveWord } from '@/app/(search)/actions/save-word'
-import type { Translation } from '@/app/(search)/actions/search-word/types'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -10,6 +8,8 @@ import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
 import { titleCase } from 'title-case'
+import { saveWord } from '../actions/save-word'
+import type { Translation } from '../actions/search-word/types'
 
 type ResultProps = {
   translation: Translation
