@@ -1,7 +1,5 @@
 'use client'
 
-import type { Translation } from '@/app/(search)/actions/search-word/types'
-
 import {
   Card,
   CardContent,
@@ -13,7 +11,9 @@ import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+
 import { searchWord } from '../actions/search-word'
+import type { Translation } from '../actions/search-word/types'
 import { Result } from './result'
 import { SearchFormSubmitButton } from './search-form-submit-button'
 

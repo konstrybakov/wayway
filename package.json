@@ -13,6 +13,7 @@
     "db:reset": "prisma migrate reset",
     "db:studio": "prisma studio --browser=none",
     "db:reset-word-progress": "bun run prisma/data-migrations/reset-progress.ts",
+    "db:seed": "bun run prisma/seeds/seed.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

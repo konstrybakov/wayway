@@ -7,7 +7,7 @@ import {
   Rows4Icon,
 } from 'lucide-react'
 import { redirect } from 'next/navigation'
-import { auth } from '../auth'
+import { auth } from '../../(auth)/auth'
 import { StartPractice } from './components/start-practice-session'
 import { getCounts } from './utils/get-counts'
 

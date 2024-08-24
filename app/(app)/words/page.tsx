@@ -2,10 +2,10 @@ import { prisma } from '@/lib/db/client'
 import { redirect } from 'next/navigation'
 import { Words } from './components/words'
 
-import { auth } from '@/app/auth'
 import { WordsForTableArgs } from './prisma-args'
 
 import 'server-only'
+import { auth } from '@/app/(auth)/auth'
 
 export default async function WordsPage() {
   const session = await auth()

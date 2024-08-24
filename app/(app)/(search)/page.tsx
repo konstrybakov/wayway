@@ -1,6 +1,5 @@
+import { auth } from '@/app/(auth)/auth'
 import { redirect } from 'next/navigation'
-
-import { auth } from '../auth'
 import { Search } from './components/search'
 
 export default async function Home() {

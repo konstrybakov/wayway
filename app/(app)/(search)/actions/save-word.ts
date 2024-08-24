@@ -1,6 +1,7 @@
 'use server'
-import type { Translation } from '@/app/(search)/actions/search-word/types'
+
 import { type Prisma, PrismaClient, type Word } from '@prisma/client'
+import type { Translation } from './search-word/types'
 
 const prisma = new PrismaClient()
 
