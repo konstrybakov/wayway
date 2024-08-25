@@ -98,7 +98,7 @@ create_keycloak_resources() {
 
   # Create a new realm
   echo "Creating new realm..."
-  curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:8080/admin/realms \
+  curl -s -o /dev/null -X POST http://localhost:8080/admin/realms \
     -H "Authorization: Bearer $ADMIN_TOKEN" \
     -H "Content-Type: application/json" \
     -d '{"realm": "wayway", "enabled": true}'
@@ -131,7 +131,7 @@ create_keycloak_resources() {
 
   # Create a new client
   echo "Creating new client..."
-  curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:8080/admin/realms/wayway/clients \
+  curl -s -o /dev/null -X POST http://localhost:8080/admin/realms/wayway/clients \
     -H "Authorization: Bearer $ADMIN_TOKEN" \
     -H "Content-Type: application/json" \
     -d '{
