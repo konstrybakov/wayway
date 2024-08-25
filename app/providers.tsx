@@ -4,7 +4,7 @@ import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import type { PropsWithChildren } from 'react'
 
-const posthogDisabled = process.env.POSTHOG_DISABLED === 'true'
+const posthogDisabled = process.env.NEXT_PUBLIC_POSTHOG_DISABLED === 'true'
 
 if (!posthogDisabled) {
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {

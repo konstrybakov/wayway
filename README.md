@@ -58,9 +58,18 @@ Before setting up the project, ensure you have the following installed and confi
    AUTH_SECRET=<randomly-generated-secret-string>
    ```
 
+   You can use `openssl rand -base64 32` for AUTH_SECRET
+
 5. If you plan to use AI features, add your OpenAI API key:
+
    ```
    OPENAI_API_KEY=<your-openai-api-key>
+   ```
+
+6. Run database migrations
+
+   ```
+   bun db:migrate
    ```
 
 ### Authentication Setup
@@ -91,7 +100,7 @@ Choose one of the following authentication methods:
    - Email: `barry@mail.com`
    - Password: `barrycakes`
 
-### Option 2: GitHub OAuth
+#### Option 2: GitHub OAuth
 
 1. Create a new OAuth app in your GitHub account:
 
@@ -103,7 +112,7 @@ Choose one of the following authentication methods:
    AUTH_GITHUB_SECRET=<your-github-oauth-app-secret>
    ```
 
-## Starting the Application
+### Starting the Application
 
 Once you've completed the setup, you can start the application in dev mode:
 
@@ -113,7 +122,7 @@ bun dev
 
 Visit `http://localhost:3000` in your web browser to access the application.
 
-## Troubleshooting
+### Troubleshooting
 
 If you encounter any issues during setup or running the application, please check the following:
 
