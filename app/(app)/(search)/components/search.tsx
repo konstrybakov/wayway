@@ -1,5 +1,8 @@
 'use client'
-
+import { searchWord } from '@/app/(app)/(search)/actions/search-word'
+import type { Translation } from '@/app/(app)/(search)/actions/search-word/types'
+import { Result } from '@/app/(app)/(search)/components/result'
+import { SearchFormSubmitButton } from '@/app/(app)/(search)/components/search-form-submit-button'
 import {
   Card,
   CardContent,
@@ -11,11 +14,6 @@ import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-
-import { searchWord } from '../actions/search-word'
-import type { Translation } from '../actions/search-word/types'
-import { Result } from './result'
-import { SearchFormSubmitButton } from './search-form-submit-button'
 
 type SearchProps = {
   userId: string
@@ -34,8 +32,8 @@ export function Search({ userId }: SearchProps) {
     inputRef.current?.focus()
   })
 
-  useHotkeys('2', () => router.push('/words'))
-  useHotkeys('3', () => router.push('/practice'))
+  useHotkeys('w', () => router.push('/words'))
+  useHotkeys('p', () => router.push('/practice'))
 
   return (
     <div className="flex flex-col items-center justify-center bg-background">
@@ -58,7 +56,6 @@ export function Search({ userId }: SearchProps) {
           >
             <Input
               type="text"
-              autoFocus
               ref={inputRef}
               placeholder="Enter a word to translate"
               className="flex-1"

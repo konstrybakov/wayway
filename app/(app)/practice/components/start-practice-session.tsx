@@ -24,8 +24,8 @@ export const StartPractice = ({ userId }: StartPracticeButtonsProps) => {
   const [wordCount, setWordCount] = useState('10')
   const router = useRouter()
 
-  useHotkeys('1', () => router.push('/'))
-  useHotkeys('2', () => router.push('/words'))
+  useHotkeys('s', () => router.push('/'))
+  useHotkeys('w', () => router.push('/words'))
 
   const size = wordCount === 'all' ? null : Number.parseInt(wordCount, 10)
 
