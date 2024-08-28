@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/db/client'
 import { Phase } from '@prisma/client'
-import { isAfter } from 'date-fns'
 import { isBefore } from 'date-fns/isBefore'
 
 export const getCounts = async (userId: string) => {
@@ -40,10 +39,7 @@ export const getCounts = async (userId: string) => {
   ).length
 
   const masteredCount = wordProgress.filter(
-    word =>
-      word.phase === Phase.Review &&
-      word.nextReviewDate &&
-      isAfter(word.nextReviewDate, new Date()),
+    word => word.phase === Phase.Review,
   ).length
 
   return {

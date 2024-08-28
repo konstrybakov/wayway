@@ -8,6 +8,7 @@ import { useAtom, useSetAtom } from 'jotai'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 import { ArrowBigUpIcon, CornerDownLeftIcon } from 'lucide-react'
+import { useRef } from 'react'
 import { guessAtom } from '../state/guess-atom'
 import { resultAtom } from '../state/result-atom'
 
@@ -23,6 +24,14 @@ const normalize = (string: string) => string.toLowerCase().trim()
 export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
   const [guess, setGuess] = useAtom(guessAtom)
   const setResult = useSetAtom(resultAtom)
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useHotkeys('f', event => {
+    event.preventDefault()
+
+    inputRef.current?.focus()
+  })
 
   useHotkeys(
     'shift+enter',
@@ -57,6 +66,7 @@ export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
               onChange={event => setGuess(event.target.value)}
               value={guess}
               id="word"
+              ref={inputRef}
               name={INPUT_NAME}
               type="text"
               className="flex-1"

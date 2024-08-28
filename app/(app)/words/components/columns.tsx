@@ -1,6 +1,7 @@
 'use client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,18 +16,55 @@ import { toast } from 'sonner'
 import { titleCase } from 'title-case'
 import { deleteWord } from '../actions/delete-word'
 import type { WordForTable } from '../types'
+import { DataTableColumnHeader } from './column-header'
 
 export const columns = [
   {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={value =>
+          table.toggleAllPageRowsSelected(Boolean(value))
+        }
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={value => row.toggleSelected(Boolean(value))}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: 'word',
-    header: 'Word',
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Word" />
+    },
     cell: ({ row }) => {
       return <span className="font-semibold">{row.getValue('word')}</span>
+    },
+    enableGlobalFilter: true,
+    meta: {
+      title: 'Word',
     },
   },
   {
     accessorKey: 'translation',
-    header: 'Translation',
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Translation" />
+    },
+    enableGlobalFilter: true,
+    meta: {
+      title: 'Translation',
+    },
   },
   {
     accessorKey: 'pos',
@@ -35,6 +73,9 @@ export const columns = [
       const formatted = titleCase(row.getValue('pos'))
 
       return <Badge variant="secondary">{formatted}</Badge>
+    },
+    meta: {
+      title: 'Part of Speech',
     },
   },
   {
@@ -55,6 +96,9 @@ export const columns = [
         </div>
       )
     },
+    meta: {
+      title: 'Categories',
+    },
   },
   {
     accessorKey: 'difficultyCategory',
@@ -63,6 +107,9 @@ export const columns = [
       const formatted = titleCase(row.getValue('difficultyCategory'))
 
       return <Badge variant="outline">{formatted}</Badge>
+    },
+    meta: {
+      title: 'Difficulty',
     },
   },
   {
@@ -73,6 +120,9 @@ export const columns = [
 
       return <Badge variant="outline">{formatted}</Badge>
     },
+    meta: {
+      title: 'Frequency',
+    },
   },
   {
     accessorKey: 'registerCategory',
@@ -82,10 +132,13 @@ export const columns = [
 
       return <Badge variant="outline">{formatted}</Badge>
     },
+    meta: {
+      title: 'Register',
+    },
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const word = row.original
 
       return (
@@ -112,6 +165,9 @@ export const columns = [
               onClick={() => {
                 deleteWord(word.id)
 
+                // TODO: handle this undefined
+                table.options.meta?.deleteRow(row.index)
+
                 toast.success('Word deleted')
               }}
               className="justify-between"
@@ -123,5 +179,6 @@ export const columns = [
         </DropdownMenu>
       )
     },
+    enableHiding: false,
   },
 ] satisfies ColumnDef<WordForTable>[]
