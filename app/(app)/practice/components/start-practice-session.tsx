@@ -5,9 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { Phase, PracticeSessionType } from '@prisma/client'
 import { RocketIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useHotkeys } from 'react-hotkeys-hook'
 import {
   type StartSessionOptions,
   startSession,
@@ -22,10 +20,6 @@ export const StartPractice = ({ userId }: StartPracticeButtonsProps) => {
   const [phases, setPhases] = useState<Phase[]>([])
   const [practiceTypes, setPracticeTypes] = useState<PracticeSessionType[]>([])
   const [wordCount, setWordCount] = useState('10')
-  const router = useRouter()
-
-  useHotkeys('s', () => router.push('/'))
-  useHotkeys('w', () => router.push('/words'))
 
   const size = wordCount === 'all' ? null : Number.parseInt(wordCount, 10)
 

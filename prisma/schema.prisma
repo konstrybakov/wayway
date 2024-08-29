@@ -7,18 +7,23 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider    = "zod-prisma"
+  modelSuffix = "Schema"
+}
+
 model Word {
   id Int @id @default(autoincrement())
 
   word        String
   translation String
 
-  description String
   pos         String?
+  description String?
 
-  frequencyCategory  FrequencyCategory  @map("frequency_category")
-  registerCategory   RegisterCategory   @map("register_category")
-  difficultyCategory DifficultyCategory @map("difficulty_category")
+  frequencyCategory  FrequencyCategory?  @map("frequency_category")
+  registerCategory   RegisterCategory?   @map("register_category")
+  difficultyCategory DifficultyCategory? @map("difficulty_category")
 
   wordProgress     WordProgress?
   categories       Category[]
