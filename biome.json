@@ -12,7 +12,7 @@
         }
       }
     },
-    "ignore": ["node_modules"]
+    "ignore": ["node_modules", ".next"]
   },
   "javascript": {
     "formatter": {

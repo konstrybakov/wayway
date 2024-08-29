@@ -25,9 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useHotkeys } from 'react-hotkeys-hook'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -38,7 +36,6 @@ export function DataTable<TData, TValue>({
   columns,
   data: inputData,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter()
   const [shouldSkip, skip] = useSkip()
   const [data, setData] = useState(inputData)
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -47,9 +44,6 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'word', desc: false },
   ])
-
-  useHotkeys('s', () => router.push('/'))
-  useHotkeys('p', () => router.push('/practice'))
 
   const table = useReactTable({
     data,
