@@ -20,5 +20,8 @@
       "quoteStyle": "single",
       "arrowParentheses": "asNeeded"
     }
+  },
+  "files": {
+    "ignore": [".next"]
   }
 }
