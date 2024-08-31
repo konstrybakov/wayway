@@ -1,6 +1,6 @@
-import { DM_Sans } from 'next/font/google'
+import { Inter } from 'next/font/google'
 
-export const dmSans = DM_Sans({
+export const sans = Inter({
   variable: '--font-ui',
   display: 'swap',
   subsets: ['latin'],
