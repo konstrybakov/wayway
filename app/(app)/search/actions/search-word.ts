@@ -55,6 +55,7 @@ export async function searchWord(input: string, userId: string) {
       thematicCategories.map(({ name }) => name),
     ),
     schema: TranslationSchema,
+    temperature: 0.35,
   })
 
   return { translation, saved: false }

@@ -1,6 +1,8 @@
 import { auth } from '@/app/(auth)/auth'
 import { AddWordForm } from './components/add-word-form'
 import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/db/client'
+import { CategoriesArgs } from '@/app/(app)/(add-word)/query-args'
 
 export default async function AddWordPage() {
   const session = await auth()
@@ -11,5 +13,7 @@ export default async function AddWordPage() {
     redirect('/signin')
   }
 
-  return <AddWordForm />
+  const categories = await prisma.category.findMany(CategoriesArgs)
+
+  return <AddWordForm categories={categories} />
 }

@@ -35,7 +35,7 @@ export function Search({ userId }: SearchProps) {
       <CardHeader>
         <CardTitle>Find word</CardTitle>
         <CardDescription>
-          Enter a word below and I'll provide the translation and examples.
+          Hey, if you search for a word, you might get a translation. Might not.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">

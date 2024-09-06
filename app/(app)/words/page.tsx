@@ -2,7 +2,7 @@ import { prisma } from '@/lib/db/client'
 import { redirect } from 'next/navigation'
 import { Words } from './components/words'
 
-import { WordsForTableArgs } from './prisma-args'
+import { WordsForTableArgs } from './query-args'
 
 import 'server-only'
 import { auth } from '@/app/(auth)/auth'

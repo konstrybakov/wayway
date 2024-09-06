@@ -8,6 +8,8 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { processPracticeAttempt } from '../actions/process-word'
 import { Grade } from '../actions/process-word/utils'
 import type { WordProgressForPractice } from '../types'
+import { useAtomValue } from 'jotai'
+import { guessAtom } from '@/app/(app)/practice/session/[sessionId]/[wordId]/state/guess-atom'
 
 type SkippedCardBackProps = {
   wordProgress: WordProgressForPractice
@@ -18,8 +20,10 @@ export const SkippedCardBack = ({
   wordProgress,
   practiceSession,
 }: SkippedCardBackProps) => {
+  const guess = useAtomValue(guessAtom)
+
   const process = async (grade: Grade) => {
-    await processPracticeAttempt(wordProgress, grade, practiceSession)
+    await processPracticeAttempt(guess, wordProgress, grade, practiceSession)
   }
 
   useHotkeys('enter', () => {

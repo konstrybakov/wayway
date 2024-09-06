@@ -1,5 +1,7 @@
 'use server'
 
+import 'server-only'
+
 import { prisma } from '@/lib/db/client'
 import { Phase, type PracticeSession, type Prisma } from '@prisma/client'
 import { addMinutes } from 'date-fns'
@@ -8,6 +10,7 @@ import type { WordProgressForPractice } from '../types'
 import { Grade, config } from './process-word/utils'
 
 export const processPracticeAttempt = async (
+  input: string | null,
   wordProgress: WordProgressForPractice,
   grade: Grade,
   session: PracticeSession,
@@ -28,6 +31,7 @@ export const processPracticeAttempt = async (
   }
 
   const attempt = {
+    input,
     phase: wordProgress.phase,
     grade: grade,
     wordProgress: {

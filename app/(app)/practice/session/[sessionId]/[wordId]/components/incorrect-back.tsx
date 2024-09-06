@@ -21,8 +21,9 @@ export const IncorrectCardBack = ({
   practiceSession,
 }: IncorrectCardBackProps) => {
   const guess = useAtomValue(guessAtom)
+
   const process = async (grade: Grade) => {
-    await processPracticeAttempt(wordProgress, grade, practiceSession)
+    await processPracticeAttempt(guess, wordProgress, grade, practiceSession)
   }
 
   useHotkeys('enter', () => {
