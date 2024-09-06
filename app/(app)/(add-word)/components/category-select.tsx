@@ -19,7 +19,6 @@ type CategorySelectProps = {
   form: UseFormReturn<AddWordFormValues>
   name: 'difficultyCategory' | 'frequencyCategory' | 'registerCategory'
   label: string
-  placeholder: string
   options: string[]
 }
 
@@ -27,7 +26,6 @@ export const CategorySelect = ({
   form,
   name,
   label,
-  placeholder,
   options,
 }: CategorySelectProps) => (
   <FormField
@@ -39,7 +37,7 @@ export const CategorySelect = ({
         <Select onValueChange={field.onChange} value={field.value}>
           <FormControl>
             <SelectTrigger>
-              <SelectValue placeholder={placeholder} />
+              <SelectValue />
             </SelectTrigger>
           </FormControl>
           <SelectContent>

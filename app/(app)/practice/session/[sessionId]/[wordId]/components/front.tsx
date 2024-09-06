@@ -46,7 +46,7 @@ export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
       <CardHeader>
         <CardTitle className="text-2xl font-bold">{translation}</CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-6 min-h-24 items-center">
+      <CardContent className="grid gap-6 items-center">
         <form
           onSubmit={event => {
             event.preventDefault()

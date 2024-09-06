@@ -15,6 +15,7 @@ import {
 } from '@prisma/client'
 import { DescriptionField } from './description-field'
 import { CategorySelect } from './category-select'
+import { ThematicCategorySelect } from '@/app/(app)/(add-word)/components/thematic-category-select'
 
 type AdditionalFieldsProps = {
   form: UseFormReturn<AddWordFormValues>
@@ -35,27 +36,25 @@ export const AdditionalFields = ({ form }: AdditionalFieldsProps) => (
     </CollapsibleTrigger>
     <CollapsibleContent className="space-y-8">
       <div className="space-y-8">
+        <ThematicCategorySelect form={form} />
         <DescriptionField form={form} />
         <div className="grid grid-cols-3 gap-4">
           <CategorySelect
             form={form}
             name="difficultyCategory"
             label="Difficulty"
-            placeholder="Select a difficulty"
             options={Object.values(DifficultyCategory)}
           />
           <CategorySelect
             form={form}
             name="frequencyCategory"
             label="Frequency"
-            placeholder="Select a frequency"
             options={Object.values(FrequencyCategory)}
           />
           <CategorySelect
             form={form}
             name="registerCategory"
             label="Register"
-            placeholder="Select a register"
             options={Object.values(RegisterCategory)}
           />
         </div>

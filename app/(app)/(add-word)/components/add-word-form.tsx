@@ -13,12 +13,20 @@ import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { CornerDownLeftIcon } from 'lucide-react'
 import { AddWordFormSchema } from '../schemas'
-import type { AddWordFormValues } from '../types'
+import type { AddWordFormValues, Category } from '../types'
 
 import { AdditionalFields } from './additional-fields'
 import { WordInput } from './word-input'
+import { categoriesAtom } from '@/app/(app)/(add-word)/state'
+import { useSetAtom } from 'jotai'
+import { useEffect } from 'react'
 
-export const AddWordForm = () => {
+type AddWordFormProps = {
+  categories: Category[]
+}
+
+export const AddWordForm = ({ categories }: AddWordFormProps) => {
+  const setCategories = useSetAtom(categoriesAtom)
   const form = useForm<AddWordFormValues>({
     resolver: zodResolver(AddWordFormSchema),
     defaultValues: {
@@ -27,6 +35,11 @@ export const AddWordForm = () => {
       description: '',
     },
   })
+
+  // TODO: evaluate if this is needed
+  useEffect(() => {
+    setCategories(categories)
+  }, [categories, setCategories])
 
   const onSubmit = (values: AddWordFormValues) => {
     console.log(values)

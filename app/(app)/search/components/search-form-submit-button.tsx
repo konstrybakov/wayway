@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { LanguagesIcon } from 'lucide-react'
+import { WandSparklesIcon } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
 
 type SearchFormSubmitButtonProps = {
@@ -17,7 +17,7 @@ export const SearchFormSubmitButton = ({
       loading={pending}
       disabled={disabled || pending}
     >
-      <LanguagesIcon size={16} />
+      <WandSparklesIcon size={16} />
       <span>Translate</span>
     </Button>
   )

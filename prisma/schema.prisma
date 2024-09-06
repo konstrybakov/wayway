@@ -199,6 +199,8 @@ model PracticeAttempt {
   phase        Phase        @default(Learning)
   reviewMethod ReviewMethod @default(FullTyping) @map("review_method")
 
+  input String?
+
   // responseTime Int? @map("response_time")
   // streak       Int          @default(0)
   // HintUsed - boolean
