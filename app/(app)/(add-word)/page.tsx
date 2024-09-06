@@ -13,6 +13,9 @@ export default async function AddWordPage() {
     redirect('/signin')
   }
 
+  // TODO: temp redirect to search
+  redirect('/search')
+
   const categories = await prisma.category.findMany(CategoriesArgs)
 
   return <AddWordForm categories={categories} />

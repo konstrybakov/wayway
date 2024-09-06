@@ -8,18 +8,14 @@ import {
 } from '@/components/ui/navigation-menu'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import { cn } from '@/lib/utils'
-import {
-  DiamondPlusIcon,
-  GamepadIcon,
-  Rows4Icon,
-  SearchIcon,
-} from 'lucide-react'
+import { GamepadIcon, Rows4Icon, SearchIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 const menuConfig = [
-  { href: '/', label: 'Add Word', icon: DiamondPlusIcon },
+  // TODO: temp hide navigation
+  // { href: '/', label: 'Add Word', icon: DiamondPlusIcon },
   { href: '/search', label: 'Search', icon: SearchIcon },
   { href: '/words', label: 'Words', icon: Rows4Icon },
   { href: '/practice', label: 'Practice', icon: GamepadIcon },
@@ -29,7 +25,8 @@ export const Navigation = () => {
   const router = useRouter()
   const pathname = usePathname()
 
-  useHotkeys('a', () => router.push('/'))
+  // TODO: temp remove hotkey
+  // useHotkeys('a', () => router.push('/'))
   useHotkeys('s', () => router.push('/search'))
   useHotkeys('w', () => router.push('/words'))
   useHotkeys('p', () => router.push('/practice'))
