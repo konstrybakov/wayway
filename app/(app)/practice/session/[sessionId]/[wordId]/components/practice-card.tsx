@@ -4,6 +4,7 @@ import { Front } from '../components/front'
 import {
   PracticeCardContext,
   usePracticeCardContext,
+  type PracticeCardContextType,
 } from './practice-card-context'
 import type { WordProgressForPractice } from '../types'
 import { normalize } from '../utils/normalize'
@@ -12,6 +13,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { BackCorrect } from './back-variant/correct'
 import { BackIncorrect } from './back-variant/incorrect'
 import { BackSkipped } from './back-variant/skipped'
+import { emptyInput, skippedInput } from '../utils/input-symbols'
 
 type PracticeCardProps = {
   children: React.ReactNode
@@ -24,29 +26,33 @@ export const PracticeCard = ({
   wordProgress,
   practiceSession,
 }: PracticeCardProps) => {
-  const [input, setInput] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [input, setInput] =
+    useState<PracticeCardContextType['input']>(emptyInput)
   const word = wordProgress.word.word
   const translation = wordProgress.word.translation
 
   const practice = useCallback(
     async (grade: Grade) => {
-      await processPracticeAttempt(input, wordProgress, grade, practiceSession)
+      await processPracticeAttempt(
+        input === skippedInput || input === emptyInput ? null : input,
+        wordProgress,
+        grade,
+        practiceSession,
+      )
     },
     [input, wordProgress, practiceSession],
   )
 
   const context = useMemo(
-    () => ({
-      word,
-      translation,
-      input,
-      setInput,
-      submitted,
-      setSubmitted,
-      practice,
-    }),
-    [input, word, submitted, translation, practice],
+    () =>
+      ({
+        word,
+        translation,
+        input,
+        setInput,
+        practice,
+      }) satisfies PracticeCardContextType,
+    [input, word, translation, practice],
   )
 
   return (
@@ -57,21 +63,21 @@ export const PracticeCard = ({
 }
 
 export const PracticeCardFront = () => {
-  const { submitted } = usePracticeCardContext()
+  const { input } = usePracticeCardContext()
 
-  return submitted ? null : <Front />
+  return input === emptyInput ? <Front /> : null
 }
 
 export const PracticeCardBack = () => {
-  const { input, word, submitted } = usePracticeCardContext()
+  const { input, word } = usePracticeCardContext()
 
-  if (!submitted) return null
-  if (input === '') return <BackSkipped />
+  if (input === emptyInput) return null
+  if (input === skippedInput) return <BackSkipped />
 
   return normalize(input) === normalize(word) ? (
     <BackCorrect />
   ) : (
-    <BackIncorrect />
+    <BackIncorrect input={input} />
   )
 }
 

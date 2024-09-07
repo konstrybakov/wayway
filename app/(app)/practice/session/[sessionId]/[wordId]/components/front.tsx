@@ -6,10 +6,11 @@ import { Label } from '@/components/ui/label'
 import { CornerDownLeftIcon, ArrowBigUpIcon } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { skippedInput } from '../utils/input-symbols'
 
 export const Front = () => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { setInput, translation, setSubmitted } = usePracticeCardContext()
+  const { setInput, translation } = usePracticeCardContext()
   const [localInput, setLocalInput] = useState('')
 
   useHotkeys('f', event => {
@@ -21,8 +22,7 @@ export const Front = () => {
   useHotkeys(
     'shift+enter',
     () => {
-      setInput('')
-      setSubmitted(true)
+      setInput(skippedInput)
     },
     { enableOnFormTags: ['INPUT'] },
   )
@@ -40,7 +40,6 @@ export const Front = () => {
             event.preventDefault()
 
             setInput(localInput)
-            setSubmitted(true)
           }}
           className="grid gap-2"
         >
@@ -70,8 +69,7 @@ export const Front = () => {
               variant="outline"
               type="button"
               onClick={() => {
-                setInput('')
-                setSubmitted(true)
+                setInput(skippedInput)
               }}
               className="flex gap-3 bg-stone-50 hover:bg-stone-100"
             >
