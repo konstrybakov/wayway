@@ -118,9 +118,11 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
         </>
       )}
       <div className="space-y-4">
-        <p className="text-muted-foreground text-sm ">
-          {translation.description}
-        </p>
+        {translation.description && (
+          <p className="text-muted-foreground text-sm ">
+            {translation.description}
+          </p>
+        )}
         <div className="flex gap-2 justify-between">
           <div className="flex gap-2">
             {translation.thematicCategory.map(category => (
@@ -131,15 +133,21 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
           </div>
 
           <div className="flex gap-2">
-            <Badge variant="outline">
-              {titleCase(translation.difficultyCategory)}
-            </Badge>
-            <Badge variant="outline">
-              {titleCase(translation.frequencyCategory)}
-            </Badge>
-            <Badge variant="outline">
-              {titleCase(translation.registerCategory)}
-            </Badge>
+            {translation.difficultyCategory && (
+              <Badge variant="outline">
+                {titleCase(translation.difficultyCategory)}
+              </Badge>
+            )}
+            {translation.frequencyCategory && (
+              <Badge variant="outline">
+                {titleCase(translation.frequencyCategory)}
+              </Badge>
+            )}
+            {translation.registerCategory && (
+              <Badge variant="outline">
+                {titleCase(translation.registerCategory)}
+              </Badge>
+            )}
           </div>
         </div>
       </div>

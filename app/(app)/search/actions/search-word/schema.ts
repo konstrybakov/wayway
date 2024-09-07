@@ -22,6 +22,7 @@ export const TranslationSchema = z.object({
     .describe('The English translation of the word or phrase'),
   description: z
     .string()
+    .nullable()
     .describe('A short description of the meaning and usage in English'),
   partOfSpeech: z
     .string()
@@ -38,12 +39,15 @@ export const TranslationSchema = z.object({
     .describe('The thematic categories of the word or phrase'),
   difficultyCategory: z
     .nativeEnum(DifficultyCategory)
+    .nullable()
     .describe('The difficulty category of the word or phrase'),
   registerCategory: z
     .nativeEnum(RegisterCategory)
+    .nullable()
     .describe('The register category of the word or phrase'),
   frequencyCategory: z
     .nativeEnum(FrequencyCategory)
+    .nullable()
     .describe('The frequency category of the word or phrase'),
   error: z
     .string()
