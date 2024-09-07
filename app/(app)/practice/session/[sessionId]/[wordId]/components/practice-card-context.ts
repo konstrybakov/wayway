@@ -1,13 +1,12 @@
 import type { Grade } from '@/app/(app)/practice/session/[sessionId]/[wordId]/actions/process-word/utils'
 import { createContext, useContext } from 'react'
+import type { EmptyInput, SkippedInput } from '../utils/input-symbols'
 
-type PracticeCardContextType = {
+export type PracticeCardContextType = {
   word: string
   translation: string
-  input: string
-  setInput: (input: string) => void
-  submitted: boolean
-  setSubmitted: (submitted: boolean) => void
+  input: EmptyInput | SkippedInput | string
+  setInput: (input: SkippedInput | string) => void
   practice: (grade: Grade) => Promise<void>
 }
 

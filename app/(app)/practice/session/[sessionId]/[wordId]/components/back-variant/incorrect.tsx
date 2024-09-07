@@ -5,8 +5,12 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { CircleXIcon, CornerDownLeftIcon, ArrowBigUpIcon } from 'lucide-react'
 import { Grade } from '../../actions/process-word/utils'
 
-export const BackIncorrect = () => {
-  const { input, word, translation, practice } = usePracticeCardContext()
+type BackIncorrectProps = {
+  input: string
+}
+
+export const BackIncorrect = ({ input }: BackIncorrectProps) => {
+  const { word, translation, practice } = usePracticeCardContext()
 
   useHotkeys('enter', () => {
     practice(Grade.Forgot)
