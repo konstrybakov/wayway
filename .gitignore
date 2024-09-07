@@ -38,3 +38,8 @@ next-env.d.ts
 
 /dump
 /prisma/zod
+
+# vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
