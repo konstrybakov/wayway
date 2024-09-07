@@ -1,31 +1,16 @@
-'use client'
-
+import { usePracticeCardContext } from './practice-card-context'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useAtom, useSetAtom } from 'jotai'
+import { CornerDownLeftIcon, ArrowBigUpIcon } from 'lucide-react'
+import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
-import { ArrowBigUpIcon, CornerDownLeftIcon } from 'lucide-react'
-import { useRef } from 'react'
-import { guessAtom } from '../state/guess-atom'
-import { resultAtom } from '../state/result-atom'
-
-const INPUT_NAME = 'guess'
-
-type WordCardFrontProps = {
-  word: string
-  translation: string
-}
-
-const normalize = (string: string) => string.toLowerCase().trim()
-
-export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
-  const [guess, setGuess] = useAtom(guessAtom)
-  const setResult = useSetAtom(resultAtom)
-
+export const Front = () => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const { setInput, translation, setSubmitted } = usePracticeCardContext()
+  const [localInput, setLocalInput] = useState('')
 
   useHotkeys('f', event => {
     event.preventDefault()
@@ -36,10 +21,13 @@ export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
   useHotkeys(
     'shift+enter',
     () => {
-      setResult('skipped')
+      setInput('')
+      setSubmitted(true)
     },
     { enableOnFormTags: ['INPUT'] },
   )
+
+  const INPUT_NAME = 'guess'
 
   return (
     <Card className="w-full max-w-xl mx-auto">
@@ -51,9 +39,8 @@ export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
           onSubmit={event => {
             event.preventDefault()
 
-            setResult(
-              normalize(guess) === normalize(word) ? 'correct' : 'incorrect',
-            )
+            setInput(localInput)
+            setSubmitted(true)
           }}
           className="grid gap-2"
         >
@@ -63,12 +50,13 @@ export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
           <div className="flex items-center space-x-2">
             <Input
               autoFocus
-              onChange={event => setGuess(event.target.value)}
-              value={guess}
+              onChange={event => setLocalInput(event.target.value)}
+              value={localInput}
               id="word"
               ref={inputRef}
               name={INPUT_NAME}
               type="text"
+              maxLength={100} // TODO: think about reasonable max length
               className="flex-1"
             />
             <Button
@@ -81,7 +69,10 @@ export const WordCardFront = ({ word, translation }: WordCardFrontProps) => {
             <Button
               variant="outline"
               type="button"
-              onClick={() => setResult('skipped')}
+              onClick={() => {
+                setInput('')
+                setSubmitted(true)
+              }}
               className="flex gap-3 bg-stone-50 hover:bg-stone-100"
             >
               No Idea

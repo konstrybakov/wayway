@@ -1,11 +1,10 @@
+import 'server-only'
 import { prisma } from '@/lib/db/client'
 
 import { redirect } from 'next/navigation'
-import { WordPracticeCard } from './components/word-practice-card'
 
-import 'server-only'
 import { auth } from '@/app/(auth)/auth'
-import { Provider } from 'jotai'
+import { Practice } from './components/practice'
 
 type WordPracticePageProps = {
   params: {
@@ -40,13 +39,5 @@ export default async function WordPracticePage({
     redirect('/practice')
   }
 
-  return (
-    <Provider key={new Date().getTime()}>
-      <WordPracticeCard
-        key={new Date().getTime()}
-        wordProgress={word}
-        practiceSession={practiceSession}
-      />
-    </Provider>
-  )
+  return <Practice wordProgress={word} practiceSession={practiceSession} />
 }

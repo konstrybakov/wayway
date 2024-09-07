@@ -90,7 +90,7 @@ export default async function PracticePage() {
         </CardContent>
       </Card>
 
-      <Card className="bg-gray-50">
+      <Card className="bg-gray-50 self-start">
         <CardHeader>
           <CardTitle className="text-lg">Mastered Words</CardTitle>
         </CardHeader>

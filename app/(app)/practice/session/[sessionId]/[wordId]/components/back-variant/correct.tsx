@@ -1,41 +1,23 @@
-'use client'
-
-import { Button } from '@/components/ui/button'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { usePracticeCardContext } from '../practice-card-context'
+import { Grade } from '../../actions/process-word/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import type { PracticeSession } from '@prisma/client'
+import { Button } from '@/components/ui/button'
 import {
-  ArrowBigUpIcon,
   CircleCheckIcon,
   CornerDownLeftIcon,
+  ArrowBigUpIcon,
 } from 'lucide-react'
-import { useHotkeys } from 'react-hotkeys-hook'
-import { processPracticeAttempt } from '../actions/process-word'
-import { Grade } from '../actions/process-word/utils'
-import type { WordProgressForPractice } from '../types'
-import { guessAtom } from '@/app/(app)/practice/session/[sessionId]/[wordId]/state/guess-atom'
-import { useAtomValue } from 'jotai'
 
-type CorrectCardBackProps = {
-  wordProgress: WordProgressForPractice
-  practiceSession: PracticeSession
-}
-
-export const CorrectCardBack = ({
-  wordProgress,
-  practiceSession,
-}: CorrectCardBackProps) => {
-  const guess = useAtomValue(guessAtom)
-
-  const process = async (grade: Grade) => {
-    await processPracticeAttempt(guess, wordProgress, grade, practiceSession)
-  }
+export const BackCorrect = () => {
+  const { practice, word, translation } = usePracticeCardContext()
 
   useHotkeys('enter', () => {
-    process(Grade.Remembered)
+    practice(Grade.Remembered)
   })
 
   useHotkeys('shift+enter', () => {
-    process(Grade.Easy)
+    practice(Grade.Easy)
   })
 
   return (
@@ -48,15 +30,13 @@ export const CorrectCardBack = ({
       </CardHeader>
       <CardContent className="grid gap-6 grid-cols-2">
         <div>
-          <p className="text-2xl font-semibold">{wordProgress.word.word}</p>
-          <p className="text-lg text-muted-foreground">
-            {wordProgress.word.translation}
-          </p>
+          <p className="text-2xl font-semibold">{word}</p>
+          <p className="text-lg text-muted-foreground">{translation}</p>
         </div>
         <div className="flex gap-2 col-span-2 items-center justify-end">
           <Button
             className="flex gap-3 bg-stone-800"
-            onClick={() => process(Grade.Remembered)}
+            onClick={() => practice(Grade.Remembered)}
           >
             Remembered
             <CornerDownLeftIcon size={16} />
@@ -64,7 +44,7 @@ export const CorrectCardBack = ({
           <Button
             variant="outline"
             className="flex gap-3 bg-stone-50 hover:bg-stone-100"
-            onClick={() => process(Grade.Easy)}
+            onClick={() => practice(Grade.Easy)}
           >
             Easy
             <div className="flex">

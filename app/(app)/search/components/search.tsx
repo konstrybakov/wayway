@@ -55,6 +55,7 @@ export function Search({ userId }: SearchProps) {
             className="flex-1"
             value={input}
             onChange={e => setInput(e.target.value)}
+            maxLength={100} // TODO: think about reasonable max length
           />
           <SearchFormSubmitButton disabled={!input} />
         </form>
