@@ -4,3 +4,5 @@ import type { WordProgressForPracticeArgs } from './query-args'
 export type WordProgressForPractice = Prisma.WordProgressGetPayload<
   typeof WordProgressForPracticeArgs
 >
+
+export type PracticeResult = 'correct' | 'incorrect' | 'skipped'
