@@ -76,7 +76,6 @@
     "prisma": "^5.19.1",
     "sort-package-json": "^2.10.1",
     "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4",
-    "zod-prisma": "^0.5.4"
+    "typescript": "^5.5.4"
   }
 }
