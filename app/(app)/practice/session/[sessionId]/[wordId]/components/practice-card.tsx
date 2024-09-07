@@ -29,7 +29,7 @@ export const PracticeCard = ({
   const [input, setInput] =
     useState<PracticeCardContextType['input']>(emptyInput)
   const word = wordProgress.word.word
-  const translation = wordProgress.word.translation
+  const translation = wordProgress.word.wordData.translation
 
   const practice = useCallback(
     async (grade: Grade) => {

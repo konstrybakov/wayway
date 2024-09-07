@@ -11,6 +11,7 @@
     "db:reset-word-progress": "prisma/data-migrations/reset-progress.ts",
     "db:seed": "prisma/seeds/seed.ts",
     "db:studio": "prisma studio --browser=none",
+    "db:dump": "pg_dump wayway > dump/wayway_$(date +'%Y%m%d%H%M%S').sql",
     "dev": "next dev",
     "format": "biome format --write",
     "lint": "biome lint",

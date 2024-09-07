@@ -153,7 +153,7 @@ export const columns = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
-                navigator.clipboard.writeText(word.translation)
+                navigator.clipboard.writeText(word.wordData.translation)
 
                 toast.success('Word translation copied to clipboard')
               }}

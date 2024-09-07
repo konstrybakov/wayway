@@ -19,28 +19,32 @@ export const saveWord = async (
   const word = {
     word:
       form === 'original' ? translation.correctOriginal : translation.baseForm,
-    translation:
-      form === 'original'
-        ? translation.translation
-        : translation.baseTranslation,
-    description: translation.description,
+    wordData: {
+      create: {
+        translation:
+          form === 'original'
+            ? translation.translation
+            : translation.baseTranslation,
+        description: translation.description,
+        frequencyCategory: translation.frequencyCategory,
+        difficultyCategory: translation.difficultyCategory,
+        registerCategory: translation.registerCategory,
+        pos: translation.partOfSpeech,
+        examples: {
+          createMany: {
+            data: translation.examples.map(({ original, translation }) => ({
+              original,
+              translation,
+            })),
+          },
+        },
+      },
+    },
     categories: {
       connectOrCreate: translation.thematicCategory.map(category => ({
         where: { name: category },
         create: { name: category },
       })),
-    },
-    frequencyCategory: translation.frequencyCategory,
-    difficultyCategory: translation.difficultyCategory,
-    registerCategory: translation.registerCategory,
-    pos: translation.partOfSpeech,
-    examples: {
-      createMany: {
-        data: translation.examples.map(({ original, translation }) => ({
-          original,
-          translation,
-        })),
-      },
     },
     user: {
       connect: { id: userId },

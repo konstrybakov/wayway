@@ -12,7 +12,7 @@
         }
       }
     },
-    "ignore": ["node_modules", ".next"]
+    "ignore": ["node_modules", ".next", "prisma/zod"]
   },
   "javascript": {
     "formatter": {
@@ -22,6 +22,6 @@
     }
   },
   "files": {
-    "ignore": [".next"]
+    "ignore": [".next", "prisma/zod"]
   }
 }
