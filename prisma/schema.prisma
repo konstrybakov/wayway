@@ -13,8 +13,10 @@ model Word {
   word String
 
   wordProgress     WordProgress?
-  proofcheckResult ProofcheckResult?
+  proofcheckResult ProofcheckResult[]
   categories       Category[]
+
+  proofchecked Boolean @default(false)
 
   practiceAttempts PracticeAttempt[]
 
@@ -107,7 +109,7 @@ model ProofcheckResult {
   status     ProofcheckStatus @default(Pending)
 
   word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  wordId Int  @unique @map("word_id")
+  wordId Int  @map("word_id")
 
   wordData   WordData @relation(fields: [wordDataId], references: [id], onDelete: Cascade)
   wordDataId Int      @unique @map("word_data_id")

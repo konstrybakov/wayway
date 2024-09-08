@@ -18,7 +18,8 @@
     "sort:pj": "sort-package-json",
     "start": "next start",
     "start:keycloak": "./bin/start-keycloak.sh",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "proofcheck": "bun run tasks/proofcheck/main.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^0.0.38",
@@ -48,12 +49,17 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "collapse-white-space": "^2.1.0",
     "date-fns": "^3.6.0",
+    "html-to-text": "^9.0.5",
     "jotai": "^2.9.3",
     "lucide-react": "^0.424.0",
     "next": "^14.2.8",
     "next-auth": "^5.0.0-beta.20",
     "next-themes": "^0.3.0",
+    "pino": "^9.4.0",
+    "pino-pretty": "^11.2.2",
+    "playwright": "^1.47.0",
     "posthog-js": "^1.160.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -69,6 +75,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@types/bun": "^1.1.8",
+    "@types/html-to-text": "^9.0.4",
     "@types/node": "^22.5.4",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
