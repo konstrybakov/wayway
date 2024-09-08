@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client'
 
-export const WordsToProofcheckArgs = {
+export const WordToProofcheckArgs = {
   include: {
     wordData: true,
   },

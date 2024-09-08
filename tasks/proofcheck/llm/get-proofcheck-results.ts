@@ -12,6 +12,7 @@ import {
 } from './user-prompts'
 import { logger as pinoLogger } from '@/lib/logger'
 
+// TODO: figure how to use neverthrow with this one
 export const getProofcheckResults = async (
   definitions: string[],
   categories: string[],

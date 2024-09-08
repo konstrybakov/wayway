@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db/client'
+import { ProofcheckWordStatus } from '@prisma/client'
 
 const proofchecks = await prisma.proofcheckResult.findMany({
   select: { id: true },
@@ -18,7 +19,7 @@ await prisma.$transaction([
   }),
   prisma.word.updateMany({
     data: {
-      proofchecked: false,
+      proofcheckStatus: ProofcheckWordStatus.NotChecked,
     },
   }),
 ])

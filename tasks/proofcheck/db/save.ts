@@ -1,11 +1,12 @@
 import { prisma } from '@/lib/db/client'
-import type { WordsToProofcheck } from './types'
-import type { Prisma, Word } from '@prisma/client'
-import type { ProofcheckResult } from './llm/types'
+import type { WordToProofcheck } from './types'
+import { ProofcheckWordStatus, type Prisma, type Word } from '@prisma/client'
+
 import { logger as pinoLogger } from '@/lib/logger'
+import type { ProofcheckResult } from '../llm/types'
 
 export const save = async (
-  word: WordsToProofcheck,
+  word: WordToProofcheck,
   results: ProofcheckResult[],
 ) => {
   const logger = pinoLogger.child({
@@ -21,7 +22,7 @@ export const save = async (
     prisma.word.update({
       where: { id: word.id },
       data: {
-        proofchecked: true,
+        proofcheckStatus: ProofcheckWordStatus.Checked,
       },
     }),
     ...results.map(result =>

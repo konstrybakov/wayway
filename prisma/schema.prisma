@@ -16,7 +16,7 @@ model Word {
   proofcheckResult ProofcheckResult[]
   categories       Category[]
 
-  proofchecked Boolean @default(false)
+  proofcheckStatus ProofcheckWordStatus @default(NotChecked)
 
   practiceAttempts PracticeAttempt[]
 
@@ -30,6 +30,12 @@ model Word {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("words")
+}
+
+enum ProofcheckWordStatus {
+  NotChecked
+  Skipped
+  Checked
 }
 
 model WordData {

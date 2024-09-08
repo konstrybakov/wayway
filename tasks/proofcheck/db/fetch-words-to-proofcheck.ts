@@ -1,12 +1,13 @@
 import { prisma } from '@/lib/db/client'
-import { WordsToProofcheckArgs } from './query-args'
+import { WordToProofcheckArgs } from './query-args'
+import { ProofcheckWordStatus } from '@prisma/client'
 
 export const fetchWordsToProofcheck = async (page: number, pageSize: number) =>
   prisma.word.findMany({
     where: {
-      proofchecked: false,
+      proofcheckStatus: ProofcheckWordStatus.NotChecked,
     },
-    ...WordsToProofcheckArgs,
+    ...WordToProofcheckArgs,
     skip: (page - 1) * pageSize,
     take: pageSize,
   })
