@@ -18,6 +18,9 @@ import { deleteWord } from '../actions/delete-word'
 import type { WordForTable } from '../types'
 import { DataTableColumnHeader } from './column-header'
 
+// TODO: start using column helper, otherwise columns are not typesafe
+// const columnHelper = createColumnHelper<WordForTable>()
+
 export const columns = [
   {
     id: 'select',
@@ -48,8 +51,12 @@ export const columns = [
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Word" />
     },
-    cell: ({ row }) => {
-      return <span className="font-semibold">{row.getValue('word')}</span>
+    cell: ({ getValue }) => {
+      return (
+        <span className="font-semibold">
+          {getValue<WordForTable['word']>()}
+        </span>
+      )
     },
     enableGlobalFilter: true,
     meta: {
@@ -69,8 +76,8 @@ export const columns = [
   {
     accessorKey: 'pos',
     header: 'Part of Speech',
-    cell: ({ row }) => {
-      const formatted = titleCase(row.getValue('pos'))
+    cell: ({ getValue }) => {
+      const formatted = titleCase(getValue<WordForTable['pos']>() ?? '')
 
       return <Badge variant="secondary">{formatted}</Badge>
     },
@@ -81,10 +88,10 @@ export const columns = [
   {
     accessorKey: 'categories',
     header: 'Categories',
-    cell: ({ row }) => {
-      const formatted = row
-        .getValue<WordForTable['categories']>('categories')
-        .map(({ name }) => titleCase(name))
+    cell: ({ getValue }) => {
+      const formatted = getValue<WordForTable['categories']>().map(({ name }) =>
+        titleCase(name),
+      )
 
       return (
         <div className="flex gap-2">
@@ -103,8 +110,10 @@ export const columns = [
   {
     accessorKey: 'difficultyCategory',
     header: 'Difficulty',
-    cell: ({ row }) => {
-      const formatted = titleCase(row.getValue('difficultyCategory'))
+    cell: ({ getValue }) => {
+      const formatted = titleCase(
+        getValue<WordForTable['difficultyCategory']>() ?? '',
+      )
 
       return <Badge variant="outline">{formatted}</Badge>
     },
@@ -115,8 +124,10 @@ export const columns = [
   {
     accessorKey: 'frequencyCategory',
     header: 'Frequency',
-    cell: ({ row }) => {
-      const formatted = titleCase(row.getValue('frequencyCategory'))
+    cell: ({ getValue }) => {
+      const formatted = titleCase(
+        getValue<WordForTable['frequencyCategory']>() ?? '',
+      )
 
       return <Badge variant="outline">{formatted}</Badge>
     },
@@ -127,8 +138,10 @@ export const columns = [
   {
     accessorKey: 'registerCategory',
     header: 'Register',
-    cell: ({ row }) => {
-      const formatted = titleCase(row.getValue('registerCategory'))
+    cell: ({ getValue }) => {
+      const formatted = titleCase(
+        getValue<WordForTable['registerCategory']>() ?? '',
+      )
 
       return <Badge variant="outline">{formatted}</Badge>
     },

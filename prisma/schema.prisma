@@ -7,11 +7,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator zod {
-  provider    = "zod-prisma"
-  modelSuffix = "Schema"
-}
-
 model Word {
   id Int @id @default(autoincrement())
 

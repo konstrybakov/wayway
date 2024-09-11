@@ -1,8 +1,6 @@
 'use server'
 
 import 'server-only'
-import { anthropic } from '@ai-sdk/anthropic'
-import { openai } from '@ai-sdk/openai'
 
 import { generateObject } from 'ai'
 import { TranslationSchema } from './search-word/schema'
@@ -11,10 +9,7 @@ import type { Translation } from './search-word/types'
 import { userPrompt } from './search-word/user-prompt'
 
 import { prisma } from '@/lib/db/client'
-
-// @ts-expect-error : anthropic is not used atm
-const modelA = anthropic('claude-3-5-sonnet-20240620')
-const modelO = openai('gpt-4o-mini-2024-07-18')
+import { modelO } from '@/lib/llm/models'
 
 export async function searchWord(input: string, userId: string) {
   'use server'

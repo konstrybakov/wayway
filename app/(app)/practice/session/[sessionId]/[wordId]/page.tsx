@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 
 import { auth } from '@/app/(auth)/auth'
 import { Practice } from './components/practice'
+import { WordProgressForPracticeArgs } from './query-args'
 
 type WordPracticePageProps = {
   params: {
@@ -23,7 +24,7 @@ export default async function WordPracticePage({
     redirect('/signin')
   }
 
-  const [practiceSession, word] = await prisma.$transaction([
+  const [practiceSession, wordProgress] = await prisma.$transaction([
     prisma.practiceSession.findUnique({
       where: { id: sessionId, userId },
     }),
@@ -31,13 +32,15 @@ export default async function WordPracticePage({
       where: {
         wordId_userId: { wordId: Number(wordId), userId },
       },
-      include: { word: true },
+      ...WordProgressForPracticeArgs,
     }),
   ])
 
-  if (!practiceSession || !word) {
+  if (!practiceSession || !wordProgress) {
     redirect('/practice')
   }
 
-  return <Practice wordProgress={word} practiceSession={practiceSession} />
+  return (
+    <Practice wordProgress={wordProgress} practiceSession={practiceSession} />
+  )
 }
