@@ -1,12 +1,10 @@
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from '@/components/ui/form'
-import type { UseFormReturn } from 'react-hook-form'
-import type { AddWordFormValues, Category } from '../types'
 import {
   Select,
   SelectContent,
@@ -14,7 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type { UseFormReturn } from 'react-hook-form'
 import { titleCase } from 'title-case'
+import type { AddWordFormValues, Category } from '../types'
 
 interface ThematicCategorySelectProps {
   form: UseFormReturn<AddWordFormValues>

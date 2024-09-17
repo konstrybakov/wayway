@@ -1,14 +1,14 @@
 import { normalizeString } from '@/lib/utils/normalize-string'
 import type { PracticeSession } from '@prisma/client'
 import { useCallback, useMemo, useState } from 'react'
-import { processPracticeAttempt } from '../actions/process-word'
-import type { Grade } from '../actions/process-word/utils'
-import { Front } from '../components/front'
+import { processPracticeAttempt } from '../_actions/process-word'
+import type { Grade } from '../_actions/process-word/utils'
+import { emptyInput, skippedInput } from '../_utils/input-symbols'
 import type { WordProgressForPractice } from '../types'
-import { emptyInput, skippedInput } from '../utils/input-symbols'
 import { BackCorrect } from './back-variant/correct'
 import { BackIncorrect } from './back-variant/incorrect'
 import { BackSkipped } from './back-variant/skipped'
+import { Front } from './front'
 import {
   PracticeCardContext,
   type PracticeCardContextType,

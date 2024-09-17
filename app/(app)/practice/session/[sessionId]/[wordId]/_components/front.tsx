@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label'
 import { ArrowBigUpIcon, CornerDownLeftIcon } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { skippedInput } from '../utils/input-symbols'
+import { skippedInput } from '../_utils/input-symbols'
 import { usePracticeCardContext } from './practice-card-context'
 
 export const Front = () => {

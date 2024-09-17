@@ -1,6 +1,6 @@
 'use client'
 
-import { PracticeCard } from '@/app/(app)/practice/session/[sessionId]/[wordId]/components/practice-card'
+import { PracticeCard } from '@/app/(app)/practice/session/[sessionId]/[wordId]/_components/practice-card'
 import type { WordProgressForPractice } from '@/app/(app)/practice/session/[sessionId]/[wordId]/types'
 import type { PracticeSession } from '@prisma/client'
 

@@ -9,7 +9,7 @@ import { useState } from 'react'
 import {
   type StartSessionOptions,
   startSession,
-} from '../actions/start-practice-session'
+} from '../_actions/start-practice-session'
 
 interface StartPracticeButtonsProps {
   userId: string

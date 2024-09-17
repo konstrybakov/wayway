@@ -1,4 +1,4 @@
-import { KeycloakSigninButton } from '@/app/(auth)/signin/keycloak-signin-button'
+import { KeycloakSigninButton } from '@/app/(auth)/signin/_components/keycloak-signin-button'
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { GithubSigninButton } from './github-signin-button'
+import { GithubSigninButton } from './_components/github-signin-button'
 
 const SHOW_KEYCLOAK = process.env.DEV_AUTH === 'keycloak'
 

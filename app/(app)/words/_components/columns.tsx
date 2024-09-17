@@ -14,7 +14,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontalIcon, TrashIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { titleCase } from 'title-case'
-import { deleteWord } from '../actions/delete-word'
+import { deleteWord } from '../_actions/delete-word'
 import type { WordForTable } from '../types'
 import { DataTableColumnHeader } from './column-header'
 

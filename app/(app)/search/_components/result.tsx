@@ -9,8 +9,8 @@ import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
 import { titleCase } from 'title-case'
-import { saveWord } from '../actions/save-word'
-import type { Translation } from '../actions/search-word/types'
+import { saveWord } from '../_actions/save-word'
+import type { Translation } from '../_actions/search-word/types'
 
 interface ResultProps {
   translation: Translation

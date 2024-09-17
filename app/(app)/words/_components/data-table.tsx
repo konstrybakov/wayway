@@ -12,9 +12,9 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { DataTableViewOptions } from '@/app/(app)/words/components/columns-visibility'
-import { DataTablePagination } from '@/app/(app)/words/components/pagination'
-import { useSkip } from '@/app/(app)/words/utils/use-skip'
+import { DataTableViewOptions } from '@/app/(app)/words/_components/columns-visibility'
+import { DataTablePagination } from '@/app/(app)/words/_components/pagination'
+import { useSkip } from '@/app/(app)/words/_utils/use-skip'
 
 import { Input } from '@/components/ui/input'
 import {

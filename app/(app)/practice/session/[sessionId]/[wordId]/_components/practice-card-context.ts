@@ -1,7 +1,7 @@
-import type { Grade } from '@/app/(app)/practice/session/[sessionId]/[wordId]/actions/process-word/utils'
+import type { Grade } from '@/app/(app)/practice/session/[sessionId]/[wordId]/_actions/process-word/utils'
 import { createContext, useContext } from 'react'
+import type { EmptyInput, SkippedInput } from '../_utils/input-symbols'
 import type { WordProgressForPractice } from '../types'
-import type { EmptyInput, SkippedInput } from '../utils/input-symbols'
 
 export interface PracticeCardContextType {
   word: WordProgressForPractice['word']

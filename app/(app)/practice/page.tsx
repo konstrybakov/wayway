@@ -8,8 +8,8 @@ import {
 } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { auth } from '../../(auth)/auth'
-import { StartPractice } from './components/start-practice-session'
-import { getCounts } from './utils/get-counts'
+import { StartPractice } from './_components/start-practice-session'
+import { getCounts } from './_utils/get-counts'
 
 export default async function PracticePage() {
   const session = await auth()

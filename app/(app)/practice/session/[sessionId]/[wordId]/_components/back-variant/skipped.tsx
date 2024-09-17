@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CircleXIcon, CornerDownLeftIcon } from 'lucide-react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { Grade } from '../../actions/process-word/utils'
+import { Grade } from '../../_actions/process-word/utils'
 import { usePracticeCardContext } from '../practice-card-context'
 
 export const BackSkipped = () => {

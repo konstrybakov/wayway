@@ -5,7 +5,7 @@ import '../globals.css'
 import { sans } from '@/app/font'
 import { cn } from '@/lib/utils'
 import { CSPostHogProvider } from '../providers'
-import { Menu } from './components/menu/menu'
+import { Menu } from './_components/menu/menu'
 
 export const metadata: Metadata = {
   title: 'WayWay',

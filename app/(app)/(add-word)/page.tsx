@@ -1,7 +1,7 @@
 import { auth } from '@/app/(auth)/auth'
 import { prisma } from '@/lib/db/client'
 import { redirect } from 'next/navigation'
-import { AddWordForm } from './components/add-word-form'
+import { AddWordForm } from './_components/add-word-form'
 import { CategoriesArgs } from './query-args'
 
 export default async function AddWordPage() {

@@ -4,7 +4,7 @@ import { prisma } from '@/lib/db/client'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/app/(auth)/auth'
-import { Practice } from './components/practice'
+import { Practice } from './_components/practice'
 import { WordProgressForPracticeArgs } from './query-args'
 
 interface WordPracticePageProps {

@@ -1,31 +1,31 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowBigUpIcon, CircleXIcon, CornerDownLeftIcon } from 'lucide-react'
+import {
+  ArrowBigUpIcon,
+  CircleCheckIcon,
+  CornerDownLeftIcon,
+} from 'lucide-react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { Grade } from '../../actions/process-word/utils'
+import { Grade } from '../../_actions/process-word/utils'
 import { usePracticeCardContext } from '../practice-card-context'
 
-interface BackIncorrectProps {
-  input: string
-}
-
-export const BackIncorrect = ({ input }: BackIncorrectProps) => {
-  const { word, practice } = usePracticeCardContext()
+export const BackCorrect = () => {
+  const { practice, word } = usePracticeCardContext()
 
   useHotkeys('enter', () => {
-    practice(Grade.Forgot)
+    practice(Grade.Remembered)
   })
 
   useHotkeys('shift+enter', () => {
-    practice(Grade.Partial)
+    practice(Grade.Easy)
   })
 
   return (
-    <Card className="w-full max-w-xl transition-all mx-auto">
+    <Card className="w-full max-w-xl mx-auto">
       <CardHeader>
         <CardTitle className="text-2xl font-bold flex gap-2 items-center">
-          <CircleXIcon className="text-rose-700" />
-          <p className="text-rose-700">Wrong!</p>
+          <CircleCheckIcon className="text-emerald-700" />
+          <p className="text-emerald-700">Correct!</p>
         </CardTitle>
       </CardHeader>
       <CardContent className="grid gap-6 grid-cols-2">
@@ -33,23 +33,20 @@ export const BackIncorrect = ({ input }: BackIncorrectProps) => {
           <p className="text-2xl font-semibold">{word.word}</p>
           <p className="text-lg text-muted-foreground">{word.translation}</p>
         </div>
-        <p className="text-rose-700 justify-self-end text-lg font-medium">
-          {input}
-        </p>
         <div className="flex gap-2 col-span-2 items-center justify-end">
           <Button
             className="flex gap-3 bg-stone-800"
-            onClick={() => practice(Grade.Forgot)}
+            onClick={() => practice(Grade.Remembered)}
           >
-            Forgot
+            Remembered
             <CornerDownLeftIcon size={16} />
           </Button>
           <Button
-            className="flex gap-3 bg-stone-50 hover:bg-stone-100"
             variant="outline"
-            onClick={() => practice(Grade.Partial)}
+            className="flex gap-3 bg-stone-50 hover:bg-stone-100"
+            onClick={() => practice(Grade.Easy)}
           >
-            Partial
+            Easy
             <div className="flex">
               <ArrowBigUpIcon size={16} />
               <CornerDownLeftIcon size={16} />

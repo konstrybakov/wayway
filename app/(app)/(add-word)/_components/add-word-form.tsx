@@ -21,7 +21,7 @@ import {
   RegisterCategory,
 } from '@prisma/client'
 import { toast } from 'sonner'
-import { actionCreateWord } from '../actions/create-word'
+import { actionCreateWord } from '../_actions/create-word'
 import { AdditionalFields } from './additional-fields'
 import { CategorySelect } from './category-select'
 import { DescriptionField } from './description-field'
