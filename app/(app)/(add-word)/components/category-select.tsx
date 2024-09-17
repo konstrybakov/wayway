@@ -1,8 +1,8 @@
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
 } from '@/components/ui/form'
 import {
@@ -15,7 +15,7 @@ import {
 import type { UseFormReturn } from 'react-hook-form'
 import type { AddWordFormValues } from '../types'
 
-type CategorySelectProps = {
+interface CategorySelectProps {
   form: UseFormReturn<AddWordFormValues>
   name: 'difficultyCategory' | 'frequencyCategory' | 'registerCategory'
   label: string

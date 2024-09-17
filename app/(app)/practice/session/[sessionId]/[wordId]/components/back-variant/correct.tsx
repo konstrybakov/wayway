@@ -1,16 +1,16 @@
-import { useHotkeys } from 'react-hotkeys-hook'
-import { usePracticeCardContext } from '../practice-card-context'
-import { Grade } from '../../actions/process-word/utils'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
+  ArrowBigUpIcon,
   CircleCheckIcon,
   CornerDownLeftIcon,
-  ArrowBigUpIcon,
 } from 'lucide-react'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { Grade } from '../../actions/process-word/utils'
+import { usePracticeCardContext } from '../practice-card-context'
 
 export const BackCorrect = () => {
-  const { practice, word, translation } = usePracticeCardContext()
+  const { practice, word } = usePracticeCardContext()
 
   useHotkeys('enter', () => {
     practice(Grade.Remembered)
@@ -30,8 +30,8 @@ export const BackCorrect = () => {
       </CardHeader>
       <CardContent className="grid gap-6 grid-cols-2">
         <div>
-          <p className="text-2xl font-semibold">{word}</p>
-          <p className="text-lg text-muted-foreground">{translation}</p>
+          <p className="text-2xl font-semibold">{word.word}</p>
+          <p className="text-lg text-muted-foreground">{word.translation}</p>
         </div>
         <div className="flex gap-2 col-span-2 items-center justify-end">
           <Button

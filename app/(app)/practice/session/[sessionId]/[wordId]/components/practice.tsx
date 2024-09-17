@@ -4,7 +4,7 @@ import { PracticeCard } from '@/app/(app)/practice/session/[sessionId]/[wordId]/
 import type { WordProgressForPractice } from '@/app/(app)/practice/session/[sessionId]/[wordId]/types'
 import type { PracticeSession } from '@prisma/client'
 
-type PracticeProps = {
+interface PracticeProps {
   wordProgress: WordProgressForPractice
   practiceSession: PracticeSession
 }

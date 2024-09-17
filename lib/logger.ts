@@ -1,21 +1,15 @@
-import { type TransportTargetOptions, pino } from 'pino'
+import { pino } from 'pino'
 
-const targets: TransportTargetOptions[] = []
-
-targets.push({
-  target: 'pino-pretty',
-  options: {
-    colorize: true,
+export const logger = pino({
+  level: process.env.LOG_LEVEL || 'info',
+  browser: {
+    asObject: true,
   },
+  transport:
+    process.env.NODE_ENV === 'development'
+      ? {
+          target: 'pino-pretty',
+          options: {},
+        }
+      : undefined,
 })
-
-export const transport = pino.transport({
-  targets,
-})
-
-export const logger = pino(
-  {
-    level: process.env.LOG_LEVEL || 'info',
-  },
-  transport,
-)

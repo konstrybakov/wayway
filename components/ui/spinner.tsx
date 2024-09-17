@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import { LoaderIcon } from 'lucide-react'
 
-type SpinnerProps = {
+interface SpinnerProps {
   size?: number
   color?: string
 }

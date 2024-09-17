@@ -1,16 +1,17 @@
-import { usePracticeCardContext } from './practice-card-context'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { CornerDownLeftIcon, ArrowBigUpIcon } from 'lucide-react'
+import { ArrowBigUpIcon, CornerDownLeftIcon } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { skippedInput } from '../utils/input-symbols'
+import { usePracticeCardContext } from './practice-card-context'
 
 export const Front = () => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { setInput, translation } = usePracticeCardContext()
+  const { setInput, word } = usePracticeCardContext()
   const [localInput, setLocalInput] = useState('')
 
   useHotkeys('f', event => {
@@ -32,7 +33,18 @@ export const Front = () => {
   return (
     <Card className="w-full max-w-xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">{translation}</CardTitle>
+        <CardTitle className="justify-between text-2xl font-bold flex items-center gap-2">
+          <span className="flex gap-2 items-center">
+            {word.translation} <Badge variant="secondary">{word.pos}</Badge>
+          </span>
+          <span className="flex gap-2">
+            {word.categories.map(category => (
+              <Badge key={category.id} variant="secondary">
+                {category.name}
+              </Badge>
+            ))}
+          </span>
+        </CardTitle>
       </CardHeader>
       <CardContent className="grid gap-6 items-center">
         <form
@@ -49,6 +61,7 @@ export const Front = () => {
           <div className="flex items-center space-x-2">
             <Input
               autoFocus
+              autoCorrect="off"
               onChange={event => setLocalInput(event.target.value)}
               value={localInput}
               id="word"

@@ -2,7 +2,7 @@ import type { WordForTable } from '../types'
 import { columns } from './columns'
 import { DataTable } from './data-table'
 
-type WordsProps = {
+interface WordsProps {
   words: WordForTable[]
 }
 

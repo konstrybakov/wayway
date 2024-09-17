@@ -1,4 +1,4 @@
-type Config = {
+interface Config {
   learningSteps: number[]
   intervalMultiplier: number
   easyBonus: number

@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
-type SearchProps = {
+interface SearchProps {
   userId: string
 }
 

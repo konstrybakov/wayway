@@ -1,16 +1,16 @@
-import { useHotkeys } from 'react-hotkeys-hook'
-import { usePracticeCardContext } from '../practice-card-context'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { CircleXIcon, CornerDownLeftIcon, ArrowBigUpIcon } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ArrowBigUpIcon, CircleXIcon, CornerDownLeftIcon } from 'lucide-react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { Grade } from '../../actions/process-word/utils'
+import { usePracticeCardContext } from '../practice-card-context'
 
-type BackIncorrectProps = {
+interface BackIncorrectProps {
   input: string
 }
 
 export const BackIncorrect = ({ input }: BackIncorrectProps) => {
-  const { word, translation, practice } = usePracticeCardContext()
+  const { word, practice } = usePracticeCardContext()
 
   useHotkeys('enter', () => {
     practice(Grade.Forgot)
@@ -30,8 +30,8 @@ export const BackIncorrect = ({ input }: BackIncorrectProps) => {
       </CardHeader>
       <CardContent className="grid gap-6 grid-cols-2">
         <div>
-          <p className="text-2xl font-semibold">{word}</p>
-          <p className="text-lg text-muted-foreground">{translation}</p>
+          <p className="text-2xl font-semibold">{word.word}</p>
+          <p className="text-lg text-muted-foreground">{word.translation}</p>
         </div>
         <p className="text-rose-700 justify-self-end text-lg font-medium">
           {input}

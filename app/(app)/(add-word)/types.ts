@@ -1,10 +1,8 @@
-import type { z } from 'zod'
-import type { AddWordFormSchema } from './schemas'
 import type { CategoriesArgs } from '@/app/(app)/(add-word)/query-args'
 import type { Prisma } from '@prisma/client'
+import type { z } from 'zod'
+import type { AddWordFormSchema } from './schemas'
 
-export type AddWordFormValues = z.infer<typeof AddWordFormSchema>
-export type Category = Prisma.CategoryGetPayload<typeof CategoriesArgs>
-export type CategoryWithCreate = Category & {
-  create?: true
-}
+export interface AddWordFormValues extends z.infer<typeof AddWordFormSchema> {}
+export interface Category
+  extends Prisma.CategoryGetPayload<typeof CategoriesArgs> {}

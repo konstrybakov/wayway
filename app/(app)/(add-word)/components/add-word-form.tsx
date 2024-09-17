@@ -1,6 +1,6 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -8,25 +8,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useForm } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CornerDownLeftIcon } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 import { AddWordFormSchema } from '../schemas'
 import type { AddWordFormValues, Category } from '../types'
 
+import {
+  DifficultyCategory,
+  FrequencyCategory,
+  RegisterCategory,
+} from '@prisma/client'
+import { toast } from 'sonner'
+import { actionCreateWord } from '../actions/create-word'
 import { AdditionalFields } from './additional-fields'
+import { CategorySelect } from './category-select'
+import { DescriptionField } from './description-field'
+import { ThematicCategorySelect } from './thematic-category-select'
 import { WordInput } from './word-input'
-import { categoriesAtom } from '@/app/(app)/(add-word)/state'
-import { useSetAtom } from 'jotai'
-import { useEffect } from 'react'
 
-type AddWordFormProps = {
+interface AddWordFormProps {
   categories: Category[]
 }
 
 export const AddWordForm = ({ categories }: AddWordFormProps) => {
-  const setCategories = useSetAtom(categoriesAtom)
   const form = useForm<AddWordFormValues>({
     resolver: zodResolver(AddWordFormSchema),
     defaultValues: {
@@ -36,13 +42,16 @@ export const AddWordForm = ({ categories }: AddWordFormProps) => {
     },
   })
 
-  // TODO: evaluate if this is needed
-  useEffect(() => {
-    setCategories(categories)
-  }, [categories, setCategories])
+  const onSubmit = async (formValues: AddWordFormValues) => {
+    const response = await actionCreateWord(formValues)
 
-  const onSubmit = (values: AddWordFormValues) => {
-    console.log(values)
+    if (response.success) {
+      toast.success('Word created')
+
+      form.reset()
+    } else {
+      toast.error('Error creating word')
+    }
   }
 
   return (
@@ -50,7 +59,7 @@ export const AddWordForm = ({ categories }: AddWordFormProps) => {
       <CardHeader>
         <CardTitle>Add word</CardTitle>
         <CardDescription>
-          Enter a word below and I'll add it to your dictionary.
+          Here, you can add a word and I'll save it to your dictionary.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
@@ -68,7 +77,31 @@ export const AddWordForm = ({ categories }: AddWordFormProps) => {
               label="Translation"
               description="The translation of the word in your native language."
             />
-            <AdditionalFields form={form} />
+            <AdditionalFields>
+              <ThematicCategorySelect categories={categories} form={form} />
+              <DescriptionField form={form} />
+              <div className="grid grid-cols-3 gap-4">
+                <CategorySelect
+                  form={form}
+                  name="difficultyCategory"
+                  label="Difficulty"
+                  options={Object.values(DifficultyCategory)}
+                />
+                <CategorySelect
+                  form={form}
+                  name="frequencyCategory"
+                  label="Frequency"
+                  options={Object.values(FrequencyCategory)}
+                />
+                <CategorySelect
+                  form={form}
+                  name="registerCategory"
+                  label="Register"
+                  options={Object.values(RegisterCategory)}
+                />
+              </div>
+            </AdditionalFields>
+
             <Button type="submit" className="flex gap-3 items-center">
               Add word <CornerDownLeftIcon size={16} />
             </Button>

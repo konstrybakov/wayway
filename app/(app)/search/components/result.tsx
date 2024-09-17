@@ -1,9 +1,10 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { AccessibleIcon } from '@radix-ui/react-accessible-icon'
-import { CircleAlertIcon, SaveIcon } from 'lucide-react'
+import { CircleAlertIcon, PencilIcon, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
@@ -11,7 +12,7 @@ import { titleCase } from 'title-case'
 import { saveWord } from '../actions/save-word'
 import type { Translation } from '../actions/search-word/types'
 
-type ResultProps = {
+interface ResultProps {
   translation: Translation
   saved: boolean
   onSave: (saved: boolean) => void
@@ -21,18 +22,37 @@ type ResultProps = {
 export const Result = ({ translation, saved, userId }: ResultProps) => {
   const [baseSaved, setBaseSaved] = useState(saved)
   const [originalSaved, setOriginalSaved] = useState(false)
-
+  const [baseEditing, setBaseEditing] = useState(false)
+  const [originalEditing, setOriginalEditing] = useState(false)
   const [baseLoading, setBaseLoading] = useState(false)
   const [originalLoading, setOriginalLoading] = useState(false)
+  const [baseTranslation, setBaseTranslation] = useState(
+    translation.baseTranslation,
+  )
+  const [originalTranslation, setOriginalTranslation] = useState(
+    translation.translation,
+  )
   const alreadyInBaseForm =
     translation.correctOriginal.toLocaleLowerCase() ===
     translation.baseForm.toLocaleLowerCase()
+
+  const handleEditWord = (form: 'base' | 'original') => {
+    if (form === 'base') {
+      setBaseEditing(true)
+    } else {
+      setOriginalEditing(true)
+    }
+  }
 
   const handleSaveWord = async (form: 'base' | 'original') => {
     try {
       form === 'base' ? setBaseLoading(true) : setOriginalLoading(true)
 
-      await saveWord(translation, form, userId)
+      await saveWord(
+        { ...translation, baseTranslation, translation: originalTranslation },
+        form,
+        userId,
+      )
 
       if (form === 'base') {
         setBaseLoading(false)
@@ -41,6 +61,9 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
         setOriginalLoading(false)
         setOriginalSaved(true)
       }
+
+      setBaseEditing(false)
+      setOriginalEditing(false)
 
       toast.success('Saved the word to your collection')
     } catch (error) {
@@ -55,6 +78,12 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
   useHotkeys('ctrl+shift+s', () => handleSaveWord('original'), {
     enableOnFormTags: ['INPUT'],
   })
+  useHotkeys('ctrl+e', () => handleEditWord('base'), {
+    enableOnFormTags: ['INPUT'],
+  })
+  useHotkeys('ctrl+shift+e', () => handleEditWord('original'), {
+    enableOnFormTags: ['INPUT'],
+  })
 
   return (
     <div className="space-y-8">
@@ -67,13 +96,30 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
       )}
       <div className="flex items-center mt-10 flex-wrap justify-between">
         <div className="flex items-center gap-2">
-          <h4 className="text-lg font-medium">
-            {translation.baseTranslation}{' '}
-          </h4>
+          {baseEditing ? (
+            <Input
+              value={baseTranslation}
+              onChange={event => setBaseTranslation(event.target.value)}
+            />
+          ) : (
+            <h4 className="text-lg font-medium">{baseTranslation} </h4>
+          )}
+
           <Badge variant="secondary">{translation.partOfSpeech}</Badge>
         </div>
         <div className="flex items-center gap-2">
           <h4 className="text-lg font-medium">{translation.baseForm}</h4>
+          <Button
+            onClick={() => handleEditWord('base')}
+            variant="secondary"
+            size="icon"
+            loading={baseLoading}
+            disabled={baseLoading || baseSaved || baseEditing}
+          >
+            <AccessibleIcon label="Edit base word">
+              <PencilIcon size={16} />
+            </AccessibleIcon>
+          </Button>
           <Button
             onClick={() => handleSaveWord('base')}
             variant="secondary"
@@ -92,15 +138,31 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
         <>
           <div className="flex items-center flex-wrap justify-between">
             <div className="flex items-center gap-2">
-              <h4 className="text-lg font-medium">
-                {translation.translation}{' '}
-              </h4>
+              {originalEditing ? (
+                <Input
+                  value={originalTranslation}
+                  onChange={event => setOriginalTranslation(event.target.value)}
+                />
+              ) : (
+                <h4 className="text-lg font-medium">{originalTranslation} </h4>
+              )}
               <Badge variant="secondary">{translation.partOfSpeech}</Badge>
             </div>
             <div className="flex items-center gap-2">
               <h4 className="text-lg font-medium">
                 {translation.correctOriginal}
               </h4>
+              <Button
+                onClick={() => handleEditWord('original')}
+                variant="secondary"
+                size="icon"
+                loading={originalLoading}
+                disabled={originalLoading || originalSaved || originalEditing}
+              >
+                <AccessibleIcon label="Edit original word">
+                  <PencilIcon size={16} />
+                </AccessibleIcon>
+              </Button>
               <Button
                 onClick={() => handleSaveWord('original')}
                 variant="secondary"

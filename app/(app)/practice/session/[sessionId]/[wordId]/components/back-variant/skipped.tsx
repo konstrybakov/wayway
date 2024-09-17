@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CircleXIcon, CornerDownLeftIcon } from 'lucide-react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { usePracticeCardContext } from '../practice-card-context'
 import { Grade } from '../../actions/process-word/utils'
+import { usePracticeCardContext } from '../practice-card-context'
 
 export const BackSkipped = () => {
-  const { practice, word, translation } = usePracticeCardContext()
+  const { practice, word } = usePracticeCardContext()
 
   useHotkeys('enter', () => {
     practice(Grade.Partial)
@@ -22,8 +22,8 @@ export const BackSkipped = () => {
       </CardHeader>
       <CardContent className="grid gap-6 grid-cols-2">
         <div>
-          <p className="text-2xl font-semibold">{word}</p>
-          <p className="text-lg text-muted-foreground">{translation}</p>
+          <p className="text-2xl font-semibold">{word.word}</p>
+          <p className="text-lg text-muted-foreground">{word.translation}</p>
         </div>
         <div className="flex gap-2 col-span-2 items-center justify-end">
           <Button
