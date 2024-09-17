@@ -11,7 +11,7 @@ import {
   startSession,
 } from '../actions/start-practice-session'
 
-type StartPracticeButtonsProps = {
+interface StartPracticeButtonsProps {
   userId: string
 }
 

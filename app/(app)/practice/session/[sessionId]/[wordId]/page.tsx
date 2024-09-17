@@ -7,7 +7,7 @@ import { auth } from '@/app/(auth)/auth'
 import { Practice } from './components/practice'
 import { WordProgressForPracticeArgs } from './query-args'
 
-type WordPracticePageProps = {
+interface WordPracticePageProps {
   params: {
     sessionId: string
     wordId: string

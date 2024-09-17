@@ -1,12 +1,14 @@
 'use server'
 
-import { prisma } from '@/lib/db/client'
-import { Phase, PracticeSessionType, type Prisma } from '@prisma/client'
-import type { User } from 'next-auth'
-import { redirect } from 'next/navigation'
 import 'server-only'
 
-export type StartSessionOptions = {
+import { prisma } from '@/lib/db/client'
+import { Phase, PracticeSessionType, type Prisma } from '@prisma/client'
+import { shuffle } from 'fast-shuffle'
+import type { User } from 'next-auth'
+import { redirect } from 'next/navigation'
+
+export interface StartSessionOptions {
   phases: Phase[]
   practiceTypes: PracticeSessionType[]
   userId: User['id']
@@ -81,7 +83,7 @@ export const startSession = async ({
           connect: { id: userId },
         },
         size,
-        words: words.map(({ wordId }) => wordId),
+        words: shuffle(words.map(({ wordId }) => wordId)),
         phase: phases,
         practiceType: practiceTypes,
       },

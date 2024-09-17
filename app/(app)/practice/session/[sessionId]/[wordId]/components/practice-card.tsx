@@ -1,21 +1,21 @@
+import { normalizeString } from '@/lib/utils/normalize-string'
+import type { PracticeSession } from '@prisma/client'
+import { useCallback, useMemo, useState } from 'react'
 import { processPracticeAttempt } from '../actions/process-word'
 import type { Grade } from '../actions/process-word/utils'
 import { Front } from '../components/front'
-import {
-  PracticeCardContext,
-  usePracticeCardContext,
-  type PracticeCardContextType,
-} from './practice-card-context'
 import type { WordProgressForPractice } from '../types'
-import { normalize } from '../utils/normalize'
-import type { PracticeSession } from '@prisma/client'
-import { useCallback, useMemo, useState } from 'react'
+import { emptyInput, skippedInput } from '../utils/input-symbols'
 import { BackCorrect } from './back-variant/correct'
 import { BackIncorrect } from './back-variant/incorrect'
 import { BackSkipped } from './back-variant/skipped'
-import { emptyInput, skippedInput } from '../utils/input-symbols'
+import {
+  PracticeCardContext,
+  type PracticeCardContextType,
+  usePracticeCardContext,
+} from './practice-card-context'
 
-type PracticeCardProps = {
+interface PracticeCardProps {
   children: React.ReactNode
   wordProgress: WordProgressForPractice
   practiceSession: PracticeSession
@@ -28,8 +28,7 @@ export const PracticeCard = ({
 }: PracticeCardProps) => {
   const [input, setInput] =
     useState<PracticeCardContextType['input']>(emptyInput)
-  const word = wordProgress.word.word
-  const translation = wordProgress.word.translation
+  const word = wordProgress.word
 
   const practice = useCallback(
     async (grade: Grade) => {
@@ -47,12 +46,11 @@ export const PracticeCard = ({
     () =>
       ({
         word,
-        translation,
         input,
         setInput,
         practice,
       }) satisfies PracticeCardContextType,
-    [input, word, translation, practice],
+    [input, word, practice],
   )
 
   return (
@@ -74,7 +72,7 @@ export const PracticeCardBack = () => {
   if (input === emptyInput) return null
   if (input === skippedInput) return <BackSkipped />
 
-  return normalize(input) === normalize(word) ? (
+  return normalizeString(input) === normalizeString(word.word) ? (
     <BackCorrect />
   ) : (
     <BackIncorrect input={input} />

@@ -1,4 +1,4 @@
-type PracticeSessionResultsProps = {
+interface PracticeSessionResultsProps {
   params: {
     sessionId: string
   }

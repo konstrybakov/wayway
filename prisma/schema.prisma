@@ -43,6 +43,7 @@ enum FrequencyCategory {
 enum RegisterCategory {
   Formal
   Informal
+  Colloquial
   Slang
   Technical
 }
@@ -146,6 +147,7 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+// https://linear.app/well-then/issue/WLTH-106/wordprogress-can-be-missed-when-creating-word
 model WordProgress {
   id Int @id @default(autoincrement())
 

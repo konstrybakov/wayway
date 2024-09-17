@@ -1,6 +1,5 @@
 import type { Prisma } from '@prisma/client'
 import type { WordProgressForPracticeArgs } from './query-args'
 
-export type WordProgressForPractice = Prisma.WordProgressGetPayload<
-  typeof WordProgressForPracticeArgs
->
+export interface WordProgressForPractice
+  extends Prisma.WordProgressGetPayload<typeof WordProgressForPracticeArgs> {}

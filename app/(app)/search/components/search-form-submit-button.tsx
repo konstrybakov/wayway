@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { WandSparklesIcon } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
 
-type SearchFormSubmitButtonProps = {
+interface SearchFormSubmitButtonProps {
   disabled: boolean
 }
 

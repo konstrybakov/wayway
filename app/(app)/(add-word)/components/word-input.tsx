@@ -1,16 +1,16 @@
 import {
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FormDescription,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import type { UseFormReturn } from 'react-hook-form'
 import type { AddWordFormValues } from '../types'
 
-type WordInputProps = {
+interface WordInputProps {
   form: UseFormReturn<AddWordFormValues>
   name: 'word' | 'translation'
   label: string

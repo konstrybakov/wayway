@@ -1,4 +1,5 @@
 import type { Prisma } from '@prisma/client'
 import type { WordsForTableArgs } from './query-args'
 
-export type WordForTable = Prisma.WordGetPayload<typeof WordsForTableArgs>
+export interface WordForTable
+  extends Prisma.WordGetPayload<typeof WordsForTableArgs> {}

@@ -1,3 +1,4 @@
+import { normalizeString } from '@/lib/utils/normalize-string'
 import {
   DifficultyCategory,
   FrequencyCategory,
@@ -28,13 +29,13 @@ export const TranslationSchema = z.object({
     .string()
     .nullable()
     .describe('The part of speech (word class) of the word')
-    .transform(value => value?.toLocaleLowerCase() ?? null),
+    .transform(value => (value ? normalizeString(value) : null)),
   thematicCategory: z
     .array(
       z
         .string()
         .describe('The thematic category of the word or phrase')
-        .transform(value => value?.toLocaleLowerCase() ?? null),
+        .transform(normalizeString),
     )
     .describe('The thematic categories of the word or phrase'),
   difficultyCategory: z
