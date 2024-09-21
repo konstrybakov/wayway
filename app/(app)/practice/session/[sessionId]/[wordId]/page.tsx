@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db/client'
 
 import { redirect } from 'next/navigation'
 
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@clerk/nextjs/server'
 import { Practice } from './_components/practice'
 import { WordProgressForPracticeArgs } from './query-args'
 
@@ -17,12 +17,7 @@ interface WordPracticePageProps {
 export default async function WordPracticePage({
   params: { sessionId, wordId },
 }: WordPracticePageProps) {
-  const session = await auth()
-  const userId = session?.user?.id
-
-  if (!userId) {
-    redirect('/signin')
-  }
+  const { userId } = auth().protect()
 
   const [practiceSession, wordProgress] = await prisma.$transaction([
     prisma.practiceSession.findUnique({

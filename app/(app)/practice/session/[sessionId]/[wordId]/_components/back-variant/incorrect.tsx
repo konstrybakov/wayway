@@ -36,6 +36,18 @@ export const BackIncorrect = ({ input }: BackIncorrectProps) => {
         <p className="text-rose-700 justify-self-end text-lg font-medium">
           {input}
         </p>
+        <div className="grid col-span-2 gap-5">
+          {word.examples.map(example => {
+            return (
+              <div key={example.original} className="flex flex-col gap-1">
+                <p className="font-xs">{example.original}</p>
+                <p className="text-muted-foreground text-sm">
+                  {example.translation}
+                </p>
+              </div>
+            )
+          })}
+        </div>
         <div className="flex gap-2 col-span-2 items-center justify-end">
           <Button
             className="flex gap-3 bg-stone-800"

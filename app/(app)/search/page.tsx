@@ -1,14 +1,8 @@
-import { auth } from '@/app/(auth)/auth'
-import { redirect } from 'next/navigation'
-import { Search } from './components/search'
+import { auth } from '@clerk/nextjs/server'
+import { Search } from './_components/search'
 
-export default async function Home() {
-  const session = await auth()
-  const userId = session?.user?.id
+export default async function SearchPage() {
+  auth().protect()
 
-  if (!userId) {
-    redirect('/signin')
-  }
-
-  return <Search userId={userId} />
+  return <Search />
 }

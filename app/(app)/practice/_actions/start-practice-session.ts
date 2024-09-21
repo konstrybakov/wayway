@@ -3,15 +3,14 @@
 import 'server-only'
 
 import { prisma } from '@/lib/db/client'
+import { auth } from '@clerk/nextjs/server'
 import { Phase, PracticeSessionType, type Prisma } from '@prisma/client'
 import { shuffle } from 'fast-shuffle'
-import type { User } from 'next-auth'
 import { redirect } from 'next/navigation'
 
 export interface StartSessionOptions {
   phases: Phase[]
   practiceTypes: PracticeSessionType[]
-  userId: User['id']
   size: number | null
   count?: boolean
 }
@@ -19,11 +18,14 @@ export interface StartSessionOptions {
 export const startSession = async ({
   phases,
   practiceTypes,
-  userId,
   size,
   count = false,
 }: StartSessionOptions) => {
-  'use server'
+  const { userId } = auth()
+
+  if (!userId) {
+    throw new Error('You must be authenticated to start a practice session')
+  }
 
   const phase: Phase[] = []
 
@@ -79,9 +81,7 @@ export const startSession = async ({
     }),
     prisma.practiceSession.create({
       data: {
-        user: {
-          connect: { id: userId },
-        },
+        userId,
         size,
         words: shuffle(words.map(({ wordId }) => wordId)),
         phase: phases,

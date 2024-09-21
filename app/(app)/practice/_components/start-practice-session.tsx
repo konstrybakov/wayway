@@ -11,11 +11,7 @@ import {
   startSession,
 } from '../_actions/start-practice-session'
 
-interface StartPracticeButtonsProps {
-  userId: string
-}
-
-export const StartPractice = ({ userId }: StartPracticeButtonsProps) => {
+export const StartPractice = () => {
   const [nextPracticeWordCount, setNextPracticeWordCount] = useState(0)
   const [phases, setPhases] = useState<Phase[]>([])
   const [practiceTypes, setPracticeTypes] = useState<PracticeSessionType[]>([])
@@ -29,7 +25,6 @@ export const StartPractice = ({ userId }: StartPracticeButtonsProps) => {
     const count = await startSession({
       phases,
       practiceTypes,
-      userId,
       size,
       count: true,
       ...override,
@@ -104,9 +99,7 @@ export const StartPractice = ({ userId }: StartPracticeButtonsProps) => {
         </div>
         <div className="flex w-full gap-2 flex-col">
           <Button
-            onClick={() =>
-              startSession({ phases, practiceTypes, userId, size })
-            }
+            onClick={() => startSession({ phases, practiceTypes, size })}
             disabled={phases.length === 0 || practiceTypes.length === 0}
             className="flex gap-2 grow"
           >

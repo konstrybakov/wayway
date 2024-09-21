@@ -1,8 +1,8 @@
 'use client'
 import { searchWord } from '@/app/(app)/search/_actions/search-word'
 import type { Translation } from '@/app/(app)/search/_actions/search-word/types'
-import { Result } from '@/app/(app)/search/components/result'
-import { SearchFormSubmitButton } from '@/app/(app)/search/components/search-form-submit-button'
+import { Result } from '@/app/(app)/search/_components/result'
+import { SearchFormSubmitButton } from '@/app/(app)/search/_components/search-form-submit-button'
 import {
   Card,
   CardContent,
@@ -14,11 +14,7 @@ import { Input } from '@/components/ui/input'
 import { useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 
-interface SearchProps {
-  userId: string
-}
-
-export function Search({ userId }: SearchProps) {
+export function Search() {
   const inputRef = useRef<HTMLInputElement>(null)
   const [input, setInput] = useState('')
   const [translation, setTranslation] = useState<Translation>()
@@ -42,7 +38,7 @@ export function Search({ userId }: SearchProps) {
         <form
           className="flex items-center gap-4"
           action={async () => {
-            const response = await searchWord(input, userId)
+            const response = await searchWord(input)
 
             setTranslation(response.translation)
             setSaved(response.saved)
@@ -65,7 +61,6 @@ export function Search({ userId }: SearchProps) {
             key={translation.translation}
             onSave={setSaved}
             saved={saved}
-            userId={userId}
             translation={translation}
           />
         )}

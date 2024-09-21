@@ -1,19 +1,15 @@
 import { prisma } from '@/lib/db/client'
-import { redirect } from 'next/navigation'
-import { Words } from './components/words'
+import { Words } from './_components/words'
 
 import { WordsForTableArgs } from './query-args'
 
 import 'server-only'
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@clerk/nextjs/server'
+
+export const dynamic = 'force-dynamic'
 
 export default async function WordsPage() {
-  const session = await auth()
-  const userId = session?.user?.id
-
-  if (!userId) {
-    redirect('/signin')
-  }
+  const { userId } = auth().protect()
 
   const words = await prisma.word.findMany({
     where: { userId },

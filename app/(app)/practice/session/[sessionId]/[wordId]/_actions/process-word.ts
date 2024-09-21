@@ -3,6 +3,7 @@
 import 'server-only'
 
 import { prisma } from '@/lib/db/client'
+import { auth } from '@clerk/nextjs/server'
 import { Phase, type PracticeSession, type Prisma } from '@prisma/client'
 import { addMinutes } from 'date-fns'
 import { redirect } from 'next/navigation'
@@ -15,6 +16,12 @@ export const processPracticeAttempt = async (
   grade: Grade,
   session: PracticeSession,
 ) => {
+  const { userId } = auth()
+
+  if (!userId) {
+    throw new Error('You must be authenticated to process practice attempts')
+  }
+
   let updatedWordProgress: Prisma.WordProgressUpdateInput = {}
 
   switch (wordProgress.phase) {
@@ -49,11 +56,7 @@ export const processPracticeAttempt = async (
         id: session.id,
       },
     },
-    user: {
-      connect: {
-        id: session.userId,
-      },
-    },
+    userId,
   } satisfies Prisma.PracticeAttemptCreateInput
 
   const sessionWords = [...session.words]
