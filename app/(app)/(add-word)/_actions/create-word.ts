@@ -2,22 +2,20 @@
 
 import 'server-only'
 
-import { auth } from '@/app/(auth)/auth'
 import { prisma } from '@/lib/db/client'
 import type { ActionResponsePromise } from '@/lib/types/action-response'
+import { auth } from '@clerk/nextjs/server'
 import type { Prisma, Word } from '@prisma/client'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import { redirect } from 'next/navigation'
 import type { AddWordFormValues } from '../types'
 
 export const actionCreateWord = async (
   addWordFormValues: AddWordFormValues,
 ): ActionResponsePromise<{ word: Word }> => {
-  const session = await auth()
-  const user = session?.user
+  const { userId } = auth()
 
-  if (!user) {
-    redirect('/signin')
+  if (!userId) {
+    throw new Error('You must be authenticated to add a word')
   }
 
   const wordData: Prisma.WordCreateArgs = {
@@ -29,16 +27,10 @@ export const actionCreateWord = async (
       difficultyCategory: addWordFormValues.difficultyCategory,
       registerCategory: addWordFormValues.registerCategory,
       frequencyCategory: addWordFormValues.frequencyCategory,
-      user: {
-        connect: {
-          id: user.id,
-        },
-      },
+      userId,
       wordProgress: {
         create: {
-          user: {
-            connect: { id: user.id },
-          },
+          userId,
         },
       },
     },

@@ -1,8 +1,15 @@
 import { prisma } from '@/lib/db/client'
+import { auth } from '@clerk/nextjs/server'
 import { Phase } from '@prisma/client'
 import { isBefore } from 'date-fns/isBefore'
 
-export const getCounts = async (userId: string) => {
+export const getCounts = async () => {
+  const { userId } = auth()
+
+  if (!userId) {
+    throw new Error('You must be authenticated to get counts')
+  }
+
   const wordProgress = await prisma.wordProgress.findMany({
     where: { userId },
     include: {

@@ -5,6 +5,7 @@ export const WordProgressForPracticeArgs = {
     word: {
       include: {
         categories: true,
+        examples: true,
       },
     },
   },

@@ -20,12 +20,24 @@ export const BackSkipped = () => {
           <p className="text-orange-700">Skipped!</p>
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-6 grid-cols-2">
+      <CardContent className="grid gap-6 grid-cols-1">
         <div>
           <p className="text-2xl font-semibold">{word.word}</p>
           <p className="text-lg text-muted-foreground">{word.translation}</p>
         </div>
-        <div className="flex gap-2 col-span-2 items-center justify-end">
+        <div className="grid gap-5">
+          {word.examples.map(example => {
+            return (
+              <div key={example.original} className="flex flex-col gap-1">
+                <p className="font-xs">{example.original}</p>
+                <p className="text-muted-foreground text-sm">
+                  {example.translation}
+                </p>
+              </div>
+            )
+          })}
+        </div>
+        <div className="flex gap-2 items-center justify-end">
           <Button
             className="flex gap-3 bg-stone-800"
             onClick={() => practice(Grade.Partial)}

@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { auth } from '@clerk/nextjs/server'
 import {
   ActivityIcon,
   CheckCircleIcon,
@@ -6,18 +7,11 @@ import {
   RotateCcwIcon,
   Rows4Icon,
 } from 'lucide-react'
-import { redirect } from 'next/navigation'
-import { auth } from '../../(auth)/auth'
 import { StartPractice } from './_components/start-practice-session'
 import { getCounts } from './_utils/get-counts'
 
 export default async function PracticePage() {
-  const session = await auth()
-  const userId = session?.user?.id
-
-  if (!userId) {
-    redirect('/signin')
-  }
+  auth().protect()
 
   const {
     totalCount,
@@ -26,7 +20,7 @@ export default async function PracticePage() {
     learningDueForReviewCount,
     masteredCount,
     masteredDueForReviewCount,
-  } = await getCounts(userId)
+  } = await getCounts()
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -120,7 +114,7 @@ export default async function PracticePage() {
         </CardContent>
       </Card>
 
-      <StartPractice userId={userId} />
+      <StartPractice />
     </div>
   )
 }

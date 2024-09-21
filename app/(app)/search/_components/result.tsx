@@ -16,10 +16,9 @@ interface ResultProps {
   translation: Translation
   saved: boolean
   onSave: (saved: boolean) => void
-  userId: string
 }
 
-export const Result = ({ translation, saved, userId }: ResultProps) => {
+export const Result = ({ translation, saved }: ResultProps) => {
   const [baseSaved, setBaseSaved] = useState(saved)
   const [originalSaved, setOriginalSaved] = useState(false)
   const [baseEditing, setBaseEditing] = useState(false)
@@ -51,7 +50,6 @@ export const Result = ({ translation, saved, userId }: ResultProps) => {
       await saveWord(
         { ...translation, baseTranslation, translation: originalTranslation },
         form,
-        userId,
       )
 
       if (form === 'base') {
