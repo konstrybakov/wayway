@@ -51,7 +51,7 @@ export const startSession = async ({
     filters.push(reviewFilter)
   practiceTypes.includes(PracticeSessionType.New) && filters.push(newFilter)
 
-  const words = await prisma.wordProgress.findMany({
+  const wordProgress = await prisma.wordProgress.findMany({
     where: {
       userId,
       phase: {
@@ -67,7 +67,7 @@ export const startSession = async ({
   })
 
   if (count) {
-    return words.length
+    return wordProgress.length
   }
 
   const [, session] = await prisma.$transaction([
@@ -83,12 +83,16 @@ export const startSession = async ({
       data: {
         userId,
         size,
-        words: shuffle(words.map(({ wordId }) => wordId)),
+        words: shuffle(wordProgress.map(({ wordId }) => wordId)),
         phase: phases,
         practiceType: practiceTypes,
+      },
+      select: {
+        id: true,
+        words: true,
       },
     }),
   ])
 
-  redirect(`/practice/session/${session.id}/${session.words[0]}`)
+  redirect(`/practice/session/${session.id}/${session.words.at(-1)}`)
 }

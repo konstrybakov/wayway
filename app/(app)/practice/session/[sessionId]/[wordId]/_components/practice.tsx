@@ -1,17 +1,15 @@
 'use client'
 
 import { PracticeCard } from '@/app/(app)/practice/session/[sessionId]/[wordId]/_components/practice-card'
-import type { WordProgressForPractice } from '@/app/(app)/practice/session/[sessionId]/[wordId]/types'
-import type { PracticeSession } from '@prisma/client'
+import type { WordForPractice } from '../types'
 
 interface PracticeProps {
-  wordProgress: WordProgressForPractice
-  practiceSession: PracticeSession
+  word: WordForPractice
 }
 
-export const Practice = ({ wordProgress, practiceSession }: PracticeProps) => {
+export const Practice = ({ word }: PracticeProps) => {
   return (
-    <PracticeCard wordProgress={wordProgress} practiceSession={practiceSession}>
+    <PracticeCard word={word}>
       <PracticeCard.Front />
       <PracticeCard.Back />
     </PracticeCard>

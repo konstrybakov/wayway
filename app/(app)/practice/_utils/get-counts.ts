@@ -12,7 +12,9 @@ export const getCounts = async () => {
 
   const wordProgress = await prisma.wordProgress.findMany({
     where: { userId },
-    include: {
+    select: {
+      phase: true,
+      nextReviewDate: true,
       _count: {
         select: {
           practiceAttempts: true,
@@ -49,16 +51,14 @@ export const getCounts = async () => {
     word => word.phase === Phase.Review,
   ).length
 
+  const formatter = new Intl.NumberFormat()
+
   return {
-    totalCount: Intl.NumberFormat().format(wordProgress.length),
-    newCount: Intl.NumberFormat().format(newCount),
-    learningCount: Intl.NumberFormat().format(learningCount),
-    learningDueForReviewCount: Intl.NumberFormat().format(
-      learningDueForReviewCount,
-    ),
-    masteredCount: Intl.NumberFormat().format(masteredCount),
-    masteredDueForReviewCount: Intl.NumberFormat().format(
-      masteredDueForReviewCount,
-    ),
+    totalCount: formatter.format(wordProgress.length),
+    newCount: formatter.format(newCount),
+    learningCount: formatter.format(learningCount),
+    learningDueForReviewCount: formatter.format(learningDueForReviewCount),
+    masteredCount: formatter.format(masteredCount),
+    masteredDueForReviewCount: formatter.format(masteredDueForReviewCount),
   }
 }

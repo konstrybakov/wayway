@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client'
 
-export const GetUserDropdownDataArgs = {
+export const UserForDropdownArgs = {
   select: {
     firstName: true,
     profileImageUrl: true,

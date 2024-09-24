@@ -1,10 +1,10 @@
 import { normalizeString } from '@/lib/utils/normalize-string'
-import type { PracticeSession } from '@prisma/client'
+import { useParams } from 'next/navigation'
 import { useCallback, useMemo, useState } from 'react'
 import { processPracticeAttempt } from '../_actions/process-word'
 import type { Grade } from '../_actions/process-word/utils'
 import { emptyInput, skippedInput } from '../_utils/input-symbols'
-import type { WordProgressForPractice } from '../types'
+import type { WordForPractice, WordPracticePageProps } from '../types'
 import { BackCorrect } from './back-variant/correct'
 import { BackIncorrect } from './back-variant/incorrect'
 import { BackSkipped } from './back-variant/skipped'
@@ -17,29 +17,24 @@ import {
 
 interface PracticeCardProps {
   children: React.ReactNode
-  wordProgress: WordProgressForPractice
-  practiceSession: PracticeSession
+  word: WordForPractice
 }
 
-export const PracticeCard = ({
-  children,
-  wordProgress,
-  practiceSession,
-}: PracticeCardProps) => {
+export const PracticeCard = ({ children, word }: PracticeCardProps) => {
+  const params = useParams<WordPracticePageProps['params']>()
   const [input, setInput] =
     useState<PracticeCardContextType['input']>(emptyInput)
-  const word = wordProgress.word
 
   const practice = useCallback(
     async (grade: Grade) => {
       await processPracticeAttempt(
         input === skippedInput || input === emptyInput ? null : input,
-        wordProgress,
+        Number(params.wordId),
         grade,
-        practiceSession,
+        params.sessionId,
       )
     },
-    [input, wordProgress, practiceSession],
+    [input, params.wordId, params.sessionId],
   )
 
   const context = useMemo(

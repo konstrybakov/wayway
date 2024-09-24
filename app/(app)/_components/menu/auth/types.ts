@@ -1,5 +1,5 @@
 import type { Prisma } from '@prisma/client'
-import type { GetUserDropdownDataArgs } from './query-args'
+import type { UserForDropdownArgs } from './query-args'
 
-export interface UserDropdownData
-  extends Prisma.UserGetPayload<typeof GetUserDropdownDataArgs> {}
+export interface UserForDropdown
+  extends Prisma.UserGetPayload<typeof UserForDropdownArgs> {}
