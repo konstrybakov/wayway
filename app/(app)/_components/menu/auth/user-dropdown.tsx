@@ -12,10 +12,10 @@ import { AvatarIcon } from '@radix-ui/react-icons'
 import { BoltIcon, CircleUserIcon, LogOutIcon } from 'lucide-react'
 import Link from 'next/link'
 import { getImageParams } from './_utils/image-params'
-import type { UserDropdownData } from './types'
+import type { UserForDropdown } from './types'
 
 interface UserDropdownProps {
-  user: UserDropdownData
+  user: UserForDropdown
 }
 
 export const UserDropdown = ({ user }: UserDropdownProps) => {

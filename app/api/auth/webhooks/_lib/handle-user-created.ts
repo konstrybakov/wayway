@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db/client'
+import { SELECT_NONE } from '@/lib/db/select-none'
 import { l } from '@/lib/logger/logger'
 import type { WebhookEvent } from '@clerk/nextjs/server'
 
@@ -31,5 +32,6 @@ export const handleUserCreated = async (event: WebhookEvent) => {
       profileImageUrl: user.image_url,
       createdAt: new Date(user.created_at),
     },
+    ...SELECT_NONE,
   })
 }

@@ -21,7 +21,26 @@ export async function searchWord(input: string) {
 
   const savedWord = await prisma.word.findFirst({
     where: { word: input, userId },
-    include: { examples: true, categories: true },
+    select: {
+      examples: {
+        select: {
+          original: true,
+          translation: true,
+        },
+      },
+      categories: {
+        select: {
+          name: true,
+        },
+      },
+      translation: true,
+      word: true,
+      pos: true,
+      difficultyCategory: true,
+      registerCategory: true,
+      frequencyCategory: true,
+      description: true,
+    },
   })
 
   if (savedWord) {

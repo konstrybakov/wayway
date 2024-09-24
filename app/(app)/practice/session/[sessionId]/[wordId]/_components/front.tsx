@@ -39,7 +39,7 @@ export const Front = () => {
           </span>
           <span className="flex gap-2">
             {word.categories.map(category => (
-              <Badge key={category.id} variant="secondary">
+              <Badge key={category.name} variant="secondary">
                 {category.name}
               </Badge>
             ))}

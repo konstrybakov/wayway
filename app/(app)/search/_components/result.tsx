@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { bl } from '@/lib/logger/browser-logger'
 import { AccessibleIcon } from '@radix-ui/react-accessible-icon'
 import { CircleAlertIcon, PencilIcon, SaveIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -65,7 +66,10 @@ export const Result = ({ translation, saved }: ResultProps) => {
 
       toast.success('Saved the word to your collection')
     } catch (error) {
-      console.error(error)
+      bl.error('Failed to save the word', {
+        translation,
+        error,
+      })
       toast.error('Failed to save the word')
     }
   }

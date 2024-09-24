@@ -1,4 +1,4 @@
-import type { WebhookEventType, WebhookEvent } from '@clerk/nextjs/server'
+import type { WebhookEvent, WebhookEventType } from '@clerk/nextjs/server'
 import { handleUserCreated } from './handle-user-created'
 import { handleUserDeleted } from './handle-user-deleted'
 import { handleUserUpdated } from './handle-user-updated'

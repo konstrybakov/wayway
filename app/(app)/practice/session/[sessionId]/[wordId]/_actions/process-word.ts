@@ -3,24 +3,36 @@
 import 'server-only'
 
 import { prisma } from '@/lib/db/client'
+import { SELECT_NONE } from '@/lib/db/select-none'
 import { auth } from '@clerk/nextjs/server'
 import { Phase, type PracticeSession, type Prisma } from '@prisma/client'
 import { addMinutes } from 'date-fns'
 import { redirect } from 'next/navigation'
-import type { WordProgressForPractice } from '../types'
+import {
+  PracticeSessionForPracticeArgs,
+  WordProgressForPracticeArgs,
+} from '../query-args'
+import type { WordForPractice, WordProgressForPractice } from '../types'
 import { Grade, config } from './process-word/utils'
 
 export const processPracticeAttempt = async (
   input: string | null,
-  wordProgress: WordProgressForPractice,
+  wordId: WordForPractice['id'],
   grade: Grade,
-  session: PracticeSession,
+  sessionId: PracticeSession['id'],
 ) => {
   const { userId } = auth()
 
   if (!userId) {
     throw new Error('You must be authenticated to process practice attempts')
   }
+
+  const wordProgress = await prisma.wordProgress.findUniqueOrThrow({
+    where: {
+      wordId,
+    },
+    ...WordProgressForPracticeArgs,
+  })
 
   let updatedWordProgress: Prisma.WordProgressUpdateInput = {}
 
@@ -48,25 +60,29 @@ export const processPracticeAttempt = async (
     },
     word: {
       connect: {
-        id: wordProgress.wordId,
+        id: wordId,
       },
     },
     practiceSession: {
       connect: {
-        id: session.id,
+        id: sessionId,
       },
     },
-    userId,
+    user: {
+      connect: {
+        id: userId,
+      },
+    },
   } satisfies Prisma.PracticeAttemptCreateInput
 
-  const sessionWords = [...session.words]
+  const session = await prisma.practiceSession.findUniqueOrThrow({
+    where: { id: sessionId },
+    ...PracticeSessionForPracticeArgs,
+  })
 
-  sessionWords.shift()
+  const sessionWords = session.words
 
-  // TODO: Maybe should also retry the Partial grade
-  // if (grade === Grade.Forgot) {
-  //   sessionWords.push(wordProgress.wordId)
-  // }
+  sessionWords.pop()
 
   const updatedSession = {
     words: sessionWords,
@@ -74,10 +90,11 @@ export const processPracticeAttempt = async (
   } satisfies Prisma.PracticeSessionUpdateInput
 
   await prisma.$transaction([
-    prisma.practiceAttempt.create({ data: attempt }),
+    prisma.practiceAttempt.create({ data: attempt, ...SELECT_NONE }),
     prisma.practiceSession.update({
-      where: { id: session.id },
+      where: { id: sessionId },
       data: updatedSession,
+      ...SELECT_NONE,
     }),
     prisma.wordProgress.update({
       where: { id: wordProgress.id },
@@ -85,12 +102,13 @@ export const processPracticeAttempt = async (
         ...updatedWordProgress,
         lastReviewDate: new Date(),
       },
+      ...SELECT_NONE,
     }),
   ])
 
-  const nextRoute = updatedSession.completed ? 'results' : sessionWords[0]
+  const nextRoute = updatedSession.completed ? 'results' : sessionWords.at(-1)
 
-  redirect(`/practice/session/${session.id}/${nextRoute}`)
+  redirect(`/practice/session/${sessionId}/${nextRoute}`)
 }
 
 const handleLearningPhase = (

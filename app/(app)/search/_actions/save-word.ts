@@ -1,7 +1,8 @@
 'use server'
 
+import { SELECT_NONE } from '@/lib/db/select-none'
 import { auth } from '@clerk/nextjs/server'
-import { type Prisma, PrismaClient, type Word } from '@prisma/client'
+import { type Prisma, PrismaClient } from '@prisma/client'
 import type { Translation } from './search-word/types'
 
 const prisma = new PrismaClient()
@@ -9,7 +10,7 @@ const prisma = new PrismaClient()
 export const saveWord = async (
   translation: Translation,
   form: 'base' | 'original',
-): Promise<Word> => {
+) => {
   const { userId } = auth()
 
   if (!userId) {
@@ -27,7 +28,7 @@ export const saveWord = async (
     categories: {
       connectOrCreate: translation.thematicCategory.map(category => ({
         where: { name: category },
-        create: { name: category },
+        create: { name: category, user: { connect: { id: userId } } },
       })),
     },
     frequencyCategory: translation.frequencyCategory,
@@ -42,7 +43,9 @@ export const saveWord = async (
         })),
       },
     },
-    userId,
+    user: {
+      connect: { id: userId },
+    },
     wordProgress: {
       create: {
         userId,
@@ -52,6 +55,7 @@ export const saveWord = async (
 
   const result = await prisma.word.create({
     data: word,
+    ...SELECT_NONE,
   })
 
   return result
