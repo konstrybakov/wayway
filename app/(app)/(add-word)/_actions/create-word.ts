@@ -5,13 +5,13 @@ import 'server-only'
 import { prisma } from '@/lib/db/client'
 import type { ActionResponsePromise } from '@/lib/types/action-response'
 import { auth } from '@clerk/nextjs/server'
-import type { Prisma, Word } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import type { AddWordFormValues } from '../types'
+import type { AddWordFormValues, CreateWordResponseData } from '../types'
 
 export const actionCreateWord = async (
   addWordFormValues: AddWordFormValues,
-): ActionResponsePromise<{ word: Word }> => {
+): ActionResponsePromise<CreateWordResponseData> => {
   const { userId } = auth()
 
   if (!userId) {
@@ -34,6 +34,9 @@ export const actionCreateWord = async (
         },
       },
     },
+    select: {
+      id: true,
+    },
   }
 
   if (addWordFormValues.category) {
@@ -50,6 +53,6 @@ export const actionCreateWord = async (
     success: true,
     status: StatusCodes.CREATED,
     statusPhrase: ReasonPhrases.CREATED,
-    data: { word },
+    data: { wordId: word.id },
   }
 }

@@ -7,31 +7,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { auth /* currentUser */ } from '@clerk/nextjs/server'
+import { SignOutButton } from '@clerk/nextjs'
 import { AvatarIcon } from '@radix-ui/react-icons'
-import { BoltIcon, CircleUserIcon, LogInIcon, LogOutIcon } from 'lucide-react'
-
-import { SignInButton, SignOutButton } from '@clerk/nextjs'
+import { BoltIcon, CircleUserIcon, LogOutIcon } from 'lucide-react'
 import Link from 'next/link'
+import { getImageParams } from './_utils/image-params'
+import type { UserDropdownData } from './types'
 
-export const Auth = async () => {
-  const { userId } = auth().protect()
+interface UserDropdownProps {
+  user: UserDropdownData
+}
 
-  // TODO: sync users data
-
-  if (!userId) {
-    return (
-      <SignInButton>
-        <Button variant="outline" className="flex ml-auto gap-2">
-          <LogInIcon size={16} />
-          <span>Sign in</span>
-        </Button>
-      </SignInButton>
-    )
-  }
-
-  // TODO: get user data after syncing
-  // const image = user?.imageUrl
+export const UserDropdown = ({ user }: UserDropdownProps) => {
+  const { profileImageUrl, firstName, email } = user
+  const image = profileImageUrl
+    ? `${profileImageUrl}?${getImageParams()}`
+    : undefined
 
   return (
     <DropdownMenu>
@@ -41,9 +32,8 @@ export const Auth = async () => {
           size="icon"
           className="rounded-full w-10 h-10"
         >
-          <Avatar className="h-8 w-8">
-            {/* TODO: get user image */}
-            <AvatarImage src={'image'} />
+          <Avatar className="h-12 w-12">
+            <AvatarImage src={image} />
             <AvatarFallback>
               <AvatarIcon />
             </AvatarFallback>
@@ -53,15 +43,17 @@ export const Auth = async () => {
       <DropdownMenuContent align="end">
         <div className="flex items-center gap-2 p-2">
           <div className="grid gap-0.5 leading-none">
-            {/* TODO: get user name */}
-            <div className="font-semibold">{userId}</div>
-            {/* TODO: get user email */}
-            <div className="text-sm text-muted-foreground">{userId}</div>
+            <div className="font-semibold">{firstName}</div>
+            <div className="text-sm text-muted-foreground">{email}</div>
           </div>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
+          <Link
+            href="/user-profile"
+            className="flex items-center gap-2"
+            prefetch={false}
+          >
             <CircleUserIcon size={16} />
             <span>Profile</span>
           </Link>
