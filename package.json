@@ -15,7 +15,7 @@
     "db:seed": "prisma/seeds/seed.ts",
     "db:studio": "prisma studio --browser=none",
     "dev": "next dev --port 4444 | pino-pretty",
-    "ngrok": "ngrok http --domain=broadly-evident-crappie.ngrok-free.app 4444",
+    "ngrok": "ngrok http --domain=$NGROK_DOMAIN 4444",
     "sort:pj": "sort-package-json",
     "start": "next start",
     "start:keycloak": "./bin/start-keycloak.sh",
