@@ -9,7 +9,7 @@ export const BackSkipped = () => {
   const { practice, word } = usePracticeCardContext()
 
   useHotkeys('enter', () => {
-    practice(Grade.Partial)
+    practice(Grade.Forgot)
   })
 
   return (
@@ -40,7 +40,7 @@ export const BackSkipped = () => {
         <div className="flex gap-2 items-center justify-end">
           <Button
             className="flex gap-3 bg-stone-800"
-            onClick={() => practice(Grade.Partial)}
+            onClick={() => practice(Grade.Forgot)}
           >
             Next
             <CornerDownLeftIcon size={16} />
