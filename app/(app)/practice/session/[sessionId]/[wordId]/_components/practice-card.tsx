@@ -55,13 +55,13 @@ export const PracticeCard = ({ children, word }: PracticeCardProps) => {
   )
 }
 
-export const PracticeCardFront = () => {
+const PracticeCardFront = () => {
   const { input } = usePracticeCardContext()
 
   return input === emptyInput ? <Front /> : null
 }
 
-export const PracticeCardBack = () => {
+const PracticeCardBack = () => {
   const { input, word } = usePracticeCardContext()
 
   if (input === emptyInput) return null
