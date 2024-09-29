@@ -7,7 +7,7 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/cn'
 import {
   DiamondPlusIcon,
   GamepadIcon,
