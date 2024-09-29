@@ -11,15 +11,11 @@ import { SignOutButton } from '@clerk/nextjs'
 import { AvatarIcon } from '@radix-ui/react-icons'
 import { BoltIcon, CircleUserIcon, LogOutIcon } from 'lucide-react'
 import Link from 'next/link'
+import { getUserData } from './_lib/get-user-data'
 import { getImageParams } from './_utils/image-params'
-import type { UserForDropdown } from './types'
 
-interface UserDropdownProps {
-  user: UserForDropdown
-}
-
-export const UserDropdown = ({ user }: UserDropdownProps) => {
-  const { profileImageUrl, firstName, email } = user
+export const UserDropdown = () => {
+  const { profileImageUrl, firstName, email } = getUserData()
   const image = profileImageUrl
     ? `${profileImageUrl}?${getImageParams()}`
     : undefined
