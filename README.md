@@ -5,7 +5,7 @@ WayWay was is a word learning app. I've created it to help me learn a new langua
 - some apps have a lot of unnecessary (for me) configuration exposed to the user during the creation of the word entry
 - some apps don't have learning modes that I prefer
 - some apps have a UI that doesn't satisfy my requirements
-- some apps don't have a freemium, or good enough freemium for me
+- some apps don't have a freemium, or good enough premium for me
 
 ## Setup
 
@@ -13,22 +13,19 @@ WayWay was is a word learning app. I've created it to help me learn a new langua
 
 Before setting up the project, ensure you have the following installed and configured:
 
-1. **PostgreSQL Database Server**
+1. **PostgreSQL Database**
 
    - A running PostgreSQL instance with a database created
-   - User, that is able to create additional databases as needed
+   - A database connection string
 
 2. **Bun Runtime**
 
    - Install the latest version of [Bun](https://bun.sh/) for your operating system
 
-3. **Docker** (Optional)
+3. **Clerk**
 
-   - Required only if you choose to set up local authentication with Keycloak
-   - Install [Docker](https://www.docker.com/get-started/) if not already available on your system
-
-4. **GitHub Account** (Alternative to Keycloak)
-   - Only required if you prefer using GitHub OAuth for authentication
+   - Create a free account at [Clerk](https://clerk.com/)
+   - Follow instructions to setup a Clerk application
 
 ### Environment Setup
 
@@ -55,10 +52,7 @@ Before setting up the project, ensure you have the following installed and confi
 
    ```
    DATABASE_URL=<your-postgres-database-url>
-   AUTH_SECRET=<randomly-generated-secret-string>
    ```
-
-   You can use `openssl rand -base64 32` for AUTH_SECRET
 
 5. If you plan to use AI features, add your OpenAI API key:
 
@@ -74,53 +68,19 @@ Before setting up the project, ensure you have the following installed and confi
 
 ### Authentication Setup
 
-Choose one of the following authentication methods:
+Please checkout clerk dashboard and documentation on how to setup the Next.js application.
 
-#### Option 1: Local Keycloak Instance (Recommended for Development)
+You can find API keys here (look for `Developers/API keys`): [Dashboard](https://dashboard.clerk.com)
 
-1. Add the following to your `.env` file:
+You would need to customize session token. To do that go to `Session management/Sessions` and customize a token to look like this:
 
-   ```
-   DEV_AUTH="keycloak"
-   AUTH_KEYCLOAK_ID="wayway"
-   AUTH_KEYCLOAK_SECRET="wayway"
-   AUTH_KEYCLOAK_ISSUER="http://localhost:8080/realms/wayway"
-   ```
-
-2. Start the Keycloak instance:
-
-   ```bash
-   bun start:keycloak
-   ```
-
-   This command spins up a Docker container with a pre-configured Keycloak instance, including a realm, user, and client.
-
-3. Access Keycloak using the following credentials:
-   - Username: `robotbarry`
-   - Email: `barry@mail.com`
-   - Password: `barrycakes`
-
-#### Option 2: GitHub OAuth
-
-1. Create a new OAuth app in your GitHub account:
-
-   - Follow the guide at [Configuring GitHub Authentication](https://authjs.dev/guides/configuring-github)
-
-2. Add the following to your `.env` file:
-   ```
-   AUTH_GITHUB_ID=<your-github-oauth-app-id>
-   AUTH_GITHUB_SECRET=<your-github-oauth-app-secret>
-   ```
-
-### Starting the Application
-
-Once you've completed the setup, you can start the application in dev mode:
-
-```bash
-bun dev
+```json
+{
+	"name": "{{user.first_name}}",
+	"email": "{{user.primary_email_address}}",
+	"imgsrc": "{{user.image_url}}"
+}
 ```
-
-Visit `http://localhost:3000` in your web browser to access the application.
 
 ### Troubleshooting
 
@@ -128,7 +88,7 @@ If you encounter any issues during setup or running the application, please chec
 
 1. Ensure all environment variables are correctly set in your `.env` file
 2. Verify that PostgreSQL is running and accessible
-3. If using Keycloak, make sure Docker is running and the Keycloak container is active
+
 
 For further assistance open an issue in the GitHub repository.
 

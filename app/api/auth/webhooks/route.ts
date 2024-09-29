@@ -9,12 +9,12 @@ import { getWebhookHeaders } from './_utils/get-webhook-headers'
 export async function POST(request: Request) {
   const log = l.child({ ctx: 'POST /api/auth/webhooks' })
 
-  const secret = process.env.WEBHOOK_SECRET
+  const secret = process.env.CLERK_WEBHOOK_SECRET
 
   if (!secret) {
-    log.error('Missing WEBHOOK_SECRET')
+    log.error('Missing CLERK_WEBHOOK_SECRET')
 
-    throw new Error('Missing WEBHOOK_SECRET')
+    throw new Error('Missing CLERK_WEBHOOK_SECRET')
   }
 
   let webhookHeaders: WebhookRequiredHeaders

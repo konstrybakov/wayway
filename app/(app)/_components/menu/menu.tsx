@@ -1,4 +1,4 @@
-import { Auth } from './auth/auth'
+import { Auth } from './auth'
 import { Navigation } from './navigation'
 
 export const Menu = () => {

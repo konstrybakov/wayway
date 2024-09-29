@@ -9,3 +9,11 @@ declare module '@tanstack/react-table' {
     title: string
   }
 }
+
+declare global {
+  interface CustomJwtSessionClaims {
+    name?: string
+    email?: string
+    imgsrc?: string
+  }
+}
