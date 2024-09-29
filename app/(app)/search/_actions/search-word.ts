@@ -8,6 +8,7 @@ import { systemPrompt } from './search-word/system-prompt'
 import type { Translation } from './search-word/types'
 import { userPrompt } from './search-word/user-prompt'
 
+import { fetchCategories } from '@/lib/data/fetch-categories'
 import { prisma } from '@/lib/db/client'
 import { modelO } from '@/lib/llm/models'
 import { auth } from '@clerk/nextjs/server'
@@ -62,18 +63,12 @@ export async function searchWord(input: string) {
     return { translation, saved: true }
   }
 
-  const thematicCategories = await prisma.category.findMany({
-    select: { name: true },
-    distinct: ['name'],
-  })
+  const thematicCategories = await fetchCategories()
 
   const { object: translation } = await generateObject({
     model: modelO,
     system: systemPrompt,
-    prompt: userPrompt(
-      input,
-      thematicCategories.map(({ name }) => name),
-    ),
+    prompt: userPrompt(input, thematicCategories),
     schema: TranslationSchema,
     temperature: 0.35,
   })
