@@ -3,7 +3,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import '../globals.css'
 import { sans } from '@/app/font'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/cn'
 import { CSPostHogProvider } from '../providers'
 import { Menu } from './_components/menu/menu'
 
