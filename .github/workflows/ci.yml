@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  biome:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./.github/actions/setup-bun
+    - name: Run Biome check
+      run: bun run b:check
+
+  knip:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./.github/actions/setup-bun
+    - name: Run Knip
+      run: bun run knip
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./.github/actions/setup-bun
+    - name: Run TypeScript check
+      run: bun run typecheck
+
+  ci-success:
+    needs: [biome, knip, typecheck]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "All checks passed successfully!"
