@@ -3,7 +3,7 @@
 import { SELECT_NONE } from '@/lib/db/select-none'
 import { auth } from '@clerk/nextjs/server'
 import { type Prisma, PrismaClient } from '@prisma/client'
-import type { Translation } from './search-word/types'
+import type { Translation } from './search-word/_common/types'
 
 const prisma = new PrismaClient()
 

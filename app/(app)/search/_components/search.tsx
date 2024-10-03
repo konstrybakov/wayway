@@ -1,6 +1,6 @@
 'use client'
 import { searchWord } from '@/app/(app)/search/_actions/search-word'
-import type { Translation } from '@/app/(app)/search/_actions/search-word/types'
+import type { Translation } from '@/app/(app)/search/_actions/search-word/_common/types'
 import { Result } from '@/app/(app)/search/_components/result'
 import { SearchFormSubmitButton } from '@/app/(app)/search/_components/search-form-submit-button'
 import {

@@ -3,9 +3,9 @@
 import 'server-only'
 
 import { generateObject } from 'ai'
-import { TranslationSchema } from './search-word/schema'
+import { TranslationSchema } from './search-word/_common/schemas'
+import type { Translation } from './search-word/_common/types'
 import { systemPrompt } from './search-word/system-prompt'
-import type { Translation } from './search-word/types'
 import { userPrompt } from './search-word/user-prompt'
 
 import { fetchCategories } from '@/lib/data/fetch-categories'
