@@ -1,5 +1,5 @@
-name: 'Setup Bun'
-description: 'Setup Bun with caching'
+name: "Setup Bun"
+description: "Setup Bun with caching"
 runs:
   using: "composite"
   steps:
