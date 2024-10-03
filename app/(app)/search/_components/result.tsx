@@ -11,7 +11,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 import { toast } from 'sonner'
 import { titleCase } from 'title-case'
 import { saveWord } from '../_actions/save-word'
-import type { Translation } from '../_actions/search-word/types'
+import type { Translation } from '../_actions/search-word/_common/types'
 
 interface ResultProps {
   translation: Translation
