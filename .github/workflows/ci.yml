@@ -1,4 +1,4 @@
-name: CI
+name: "CI"
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
   biome:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-bun
     - name: Run Biome check
       run: bun run b:check
@@ -18,7 +18,7 @@ jobs:
   knip:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-bun
     - name: Run Knip
       run: bun run knip
@@ -26,7 +26,7 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-bun
     - name: Run TypeScript check
       run: bun run typecheck
