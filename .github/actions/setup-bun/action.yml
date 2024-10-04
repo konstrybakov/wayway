@@ -1,13 +1,14 @@
-name: "Setup Bun"
-description: "Setup Bun with caching"
+name: Setup Bun
+description: Setup Bun with caching
+
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Setup Bun
       uses: oven-sh/setup-bun@v1
       with:
         bun-version: latest
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: ~/.bun/install/cache
         key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
