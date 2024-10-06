@@ -29,7 +29,7 @@ export const PracticeCard = ({ children, word }: PracticeCardProps) => {
     async (grade: Grade) => {
       await processPracticeAttempt(
         input === skippedInput || input === emptyInput ? null : input,
-        Number(params.wordId),
+        params.wordId,
         grade,
         params.sessionId,
       )

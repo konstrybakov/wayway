@@ -15,7 +15,7 @@ export default async function WordPracticePage({
 
   const word = await prisma.word.findUnique({
     where: {
-      id: Number(wordId),
+      id: wordId,
     },
     ...WordForPracticeArgs,
   })
