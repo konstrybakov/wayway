@@ -68,11 +68,7 @@ export const processPracticeAttempt = async (
         id: sessionId,
       },
     },
-    user: {
-      connect: {
-        id: userId,
-      },
-    },
+    userId,
   } satisfies Prisma.PracticeAttemptCreateInput
 
   const session = await prisma.practiceSession.findUniqueOrThrow({

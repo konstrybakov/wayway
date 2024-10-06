@@ -25,7 +25,6 @@ model Word {
   examples         Example[]
   practiceAttempts PracticeAttempt[]
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -76,7 +75,6 @@ model Category {
 
   words Word[]
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -103,7 +101,6 @@ model WordProgress {
   word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
   wordId Int  @unique @map("word_id")
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   practiceAttempts PracticeAttempt[]
@@ -146,7 +143,6 @@ model PracticeAttempt {
   word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
   wordId Int  @map("word_id")
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   practiceSession   PracticeSession? @relation(fields: [practiceSessionId], references: [id])
@@ -176,7 +172,6 @@ model PracticeSession {
 
   practiceAttempts PracticeAttempt[]
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -186,27 +181,4 @@ model PracticeSession {
 enum PracticeSessionType {
   New
   Review
-}
-
-model User {
-  id String @id
-
-  firstName String? @map("first_name")
-  lastName  String? @map("last_name")
-
-  profileImageUrl String? @map("profile_image_url")
-
-  email    String
-  username String?
-
-  words            Word[]
-  wordProgress     WordProgress[]
-  practiceSessions PracticeSession[]
-  practiceAttempts PracticeAttempt[]
-  categories       Category[]
-
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("users")
 }

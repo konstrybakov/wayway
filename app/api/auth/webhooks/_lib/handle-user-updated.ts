@@ -1,5 +1,3 @@
-import { prisma } from '@/lib/db/client'
-import { SELECT_NONE } from '@/lib/db/select-none'
 import { l } from '@/lib/logger/logger'
 import type { WebhookEvent } from '@clerk/nextjs/server'
 
@@ -23,15 +21,15 @@ export const handleUserUpdated = async (event: WebhookEvent) => {
     throw new Error('Primary user email not found')
   }
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      email: emailEntry.email_address,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      profileImageUrl: user.image_url,
-      username: user.username,
-    },
-    ...SELECT_NONE,
-  })
+  // await prisma.user.update({
+  //   where: { id: user.id },
+  //   data: {
+  //     email: emailEntry.email_address,
+  //     firstName: user.first_name,
+  //     lastName: user.last_name,
+  //     profileImageUrl: user.image_url,
+  //     username: user.username,
+  //   },
+  //   ...SELECT_NONE,
+  // })
 }

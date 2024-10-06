@@ -28,7 +28,7 @@ export const saveWord = async (
     categories: {
       connectOrCreate: translation.thematicCategory.map(category => ({
         where: { name: category },
-        create: { name: category, user: { connect: { id: userId } } },
+        create: { name: category, userId },
       })),
     },
     frequencyCategory: translation.frequencyCategory,
@@ -43,9 +43,7 @@ export const saveWord = async (
         })),
       },
     },
-    user: {
-      connect: { id: userId },
-    },
+    userId,
     wordProgress: {
       create: {
         userId,

@@ -1,5 +1,3 @@
-import { prisma } from '@/lib/db/client'
-import { SELECT_NONE } from '@/lib/db/select-none'
 import { l } from '@/lib/logger/logger'
 import type { WebhookEvent } from '@clerk/nextjs/server'
 
@@ -12,10 +10,10 @@ export const handleUserDeleted = async (event: WebhookEvent) => {
     throw new Error('Mismatch between event type and handler')
   }
 
-  const user = event.data
+  // const user = event.data
 
-  await prisma.user.delete({
-    where: { id: user.id },
-    ...SELECT_NONE,
-  })
+  // await prisma.user.delete({
+  //   where: { id: user.id },
+  //   ...SELECT_NONE,
+  // })
 }

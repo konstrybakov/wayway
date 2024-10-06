@@ -1,5 +1,3 @@
-import { prisma } from '@/lib/db/client'
-import { SELECT_NONE } from '@/lib/db/select-none'
 import { l } from '@/lib/logger/logger'
 import type { WebhookEvent } from '@clerk/nextjs/server'
 
@@ -23,15 +21,15 @@ export const handleUserCreated = async (event: WebhookEvent) => {
     throw new Error('Primary user email not found')
   }
 
-  await prisma.user.create({
-    data: {
-      id: user.id,
-      email: emailEntry.email_address,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      profileImageUrl: user.image_url,
-      createdAt: new Date(user.created_at),
-    },
-    ...SELECT_NONE,
-  })
+  // await prisma.user.create({
+  //   data: {
+  //     id: user.id,
+  //     email: emailEntry.email_address,
+  //     firstName: user.first_name,
+  //     lastName: user.last_name,
+  //     profileImageUrl: user.image_url,
+  //     createdAt: new Date(user.created_at),
+  //   },
+  //   ...SELECT_NONE,
+  // })
 }
