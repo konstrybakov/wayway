@@ -8,7 +8,7 @@ generator client {
 }
 
 model Word {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
   word        String
   translation String
@@ -54,13 +54,13 @@ enum DifficultyCategory {
 }
 
 model Example {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
   original    String
   translation String
 
-  word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  wordId Int  @map("word_id")
+  word   Word   @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId String @map("word_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -69,7 +69,7 @@ model Example {
 }
 
 model Category {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
   name String @unique
 
@@ -85,7 +85,7 @@ model Category {
 
 // https://linear.app/well-then/issue/WLTH-106/wordprogress-can-be-missed-when-creating-word
 model WordProgress {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
   algorithm Algorithm @default(SM2)
 
@@ -98,8 +98,8 @@ model WordProgress {
   learningStep Int   @default(0) @map("learning_step")
   phase        Phase @default(Learning)
 
-  word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  wordId Int  @unique @map("word_id")
+  word   Word   @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId String @unique @map("word_id")
 
   userId String @map("user_id")
 
@@ -124,7 +124,7 @@ enum Phase {
 }
 
 model PracticeAttempt {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
   reviewDate   DateTime     @default(now()) @map("review_date")
   grade        Int
@@ -138,15 +138,15 @@ model PracticeAttempt {
   // HintUsed - boolean
 
   wordProgress   WordProgress @relation(fields: [wordProgressId], references: [id], onDelete: Cascade)
-  wordProgressId Int          @map("word_progress_id")
+  wordProgressId String       @map("word_progress_id")
 
-  word   Word @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  wordId Int  @map("word_id")
+  word   Word   @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  wordId String @map("word_id")
 
   userId String @map("user_id")
 
-  practiceSession   PracticeSession? @relation(fields: [practiceSessionId], references: [id])
-  practiceSessionId String?          @map("practice_session_id")
+  practiceSession   PracticeSession @relation(fields: [practiceSessionId], references: [id])
+  practiceSessionId String          @map("practice_session_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -163,9 +163,9 @@ enum ReviewMethod {
 model PracticeSession {
   id String @id @default(cuid())
 
-  size      Int?    @default(10)
-  words     Int[]
-  completed Boolean @default(false)
+  size      Int?     @default(10)
+  words     String[]
+  completed Boolean  @default(false)
 
   phase        Phase[]
   practiceType PracticeSessionType[]

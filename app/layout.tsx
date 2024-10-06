@@ -1,7 +1,7 @@
 import { Toaster } from '@/components/ui/sonner'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
-import '../globals.css'
+import './globals.css'
 import { cn } from '@/lib/utils/cn'
 import { Menu } from './_components/menu'
 import { sans } from './font'

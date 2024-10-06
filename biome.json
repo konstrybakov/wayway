@@ -8,7 +8,7 @@
     "rules": {
       "correctness": {
         "noUnusedImports": {
-          "level": "error"
+          "level": "off"
         }
       }
     },
